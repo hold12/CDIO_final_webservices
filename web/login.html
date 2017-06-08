@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+
 </head>
 <body>
 <h1>Login Page</h1>
+<div class="form" id="login">
+    <form method="post" enctype="application/json" id="login-form">
+        <input type="text" placeholder="User ID" name="userId" value="3" />
+        <input type="password" placeholder="Password" name="password" value="password123" />
+        <input type="button" name="button-login" id="submit-login" value="Login" autofocus />
+
+        <input type="hidden" name="firstname" value="" />
+        <input type="hidden" name="lastname" value="" />
+        <input type="hidden" name="initials" value="" />
+        <input type="hidden" name="isActive" value="true" />
+    </form>
+</div>
+
+<script src="assets/js/login.js"></script>
 </body>
 </html>

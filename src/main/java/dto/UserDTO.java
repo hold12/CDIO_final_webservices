@@ -8,6 +8,8 @@ public class UserDTO {
 	private String password;
     private boolean isActive;
 
+    public UserDTO() {}
+
     public UserDTO(int userId, String firstname, String lastname, String initials, String password, boolean isActive) {
 		this.userId = userId;
 		this.firstname = firstname;
@@ -16,7 +18,16 @@ public class UserDTO {
 		this.password = password;
         this.isActive = isActive;
     }
-	
+
+	public UserDTO(String userId, String firstname, String lastname, String initials, String password, String isActive) {
+		this.userId = Integer.parseInt(userId);
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.initials = initials;
+		this.password = password;
+		this.isActive = Boolean.parseBoolean(isActive);
+	}
+
     public UserDTO(UserDTO user) {
     	this.userId = user.getUserId();
     	this.firstname = user.getFirstname();
