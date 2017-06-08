@@ -104,4 +104,3 @@ buildNumber.properties
 .env
 .idea/*
 *.iml
-META-INF/*
