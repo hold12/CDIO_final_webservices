@@ -69,7 +69,7 @@
             <artifactId>hold12.jdbclib</artifactId>
             <version>1.3</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/jdbclib-1.3.jar</systemPath>
+            <systemPath>${project.basedir}/web/WEB-INF/lib/jdbclib-1.3.jar</systemPath>
         </dependency>
     </dependencies>
 
