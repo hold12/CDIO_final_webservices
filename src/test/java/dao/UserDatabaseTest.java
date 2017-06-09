@@ -13,6 +13,13 @@ import org.junit.Test;
 import javax.validation.constraints.Null;
 import javax.ws.rs.core.Response;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.Properties;
+
 import static org.junit.Assert.*;
 
 /**
@@ -24,7 +31,6 @@ public class UserDatabaseTest {
     @Before
     public void setup() throws Exception {
         db = new DBConnector(new DatabaseConnection());
-
     }
 
     @Test

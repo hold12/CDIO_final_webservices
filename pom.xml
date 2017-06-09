@@ -67,9 +67,9 @@
         <dependency>
             <groupId>hold12.jdbclib</groupId>
             <artifactId>hold12.jdbclib</artifactId>
-            <version>1.4</version>
+            <version>1.4.4</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/web/WEB-INF/lib/jdbclib-1.4.jar</systemPath>
+            <systemPath>${project.basedir}/web/WEB-INF/lib/jdbclib-1.4.4.jar</systemPath>
         </dependency>
     </dependencies>
 
