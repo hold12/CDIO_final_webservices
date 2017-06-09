@@ -104,3 +104,4 @@ buildNumber.properties
 .env
 .idea/*
 *.iml
+apache-tomcat/*
