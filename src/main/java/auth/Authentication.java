@@ -33,13 +33,11 @@ public class Authentication {
         UserDTO dbUser = null;
 
         try {
-            db = new DBConnector(new DatabaseConnection("h12-dev.wiberg.tech", 3306, "cdio_final", "hold12", "2017_h0lD!2"));
+            db = new DBConnector(new DatabaseConnection());
             db.connectToDatabase();
             userDAO = new UserDAO(db);
             dbUser = userDAO.getUser(actualUser.getUserId());
-//        } catch (IOException e) {
-//            System.err.println(e.getMessage());
-        } catch (DALException e) {
+        } catch (IOException | DALException e) {
             System.err.println(e.getMessage());
         } catch (ClassNotFoundException e) {
             System.err.println("No JDBC. " + e.getMessage());
@@ -83,7 +81,7 @@ public class Authentication {
             userDTO = userDAO.getUser(id);
 
             db.close();
-        } catch (Exception e) {
+        } catch (DALException | NullPointerException e) {
             e.printStackTrace();
         }
         return userDTO;
