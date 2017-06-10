@@ -19,12 +19,12 @@ public class User {
         this.isActive = isActive;
     }
 
-	public User(Credentials credentials) {
-		this.userId = credentials.getUserId();
+	public User(int userId) {
+		this.userId = userId;
 		this.firstname = "";
 		this.lastname = "";
 		this.initials = "";
-		this.password = credentials.getPassword();
+		this.password = "";
 		this.isActive = true;
 	}
 
