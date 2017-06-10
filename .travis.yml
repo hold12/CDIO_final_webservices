@@ -7,11 +7,12 @@ before_install:
   - ls
   - find . -name sql.properties
   - find . -name classes
-#  - echo DB_HOST=$DBHOST >> ./target/classes/.env
-#  - echo DB_PORT=$DBPORT >> ./target/classes/.env
-#  - echo DB_DATABASE=$DBNAME >> ./target/classes/.env
-#  - echo DB_USERNAME=$DBUSER >> ./target/classes/.env
-#  - echo DB_PASSWORD=$DBPASS >> ./target/classes/.env
+  - mkdir -p target/classes
+  - echo DB_HOST=$DBHOST >> ./target/classes/.env
+  - echo DB_PORT=$DBPORT >> ./target/classes/.env
+  - echo DB_DATABASE=$DBNAME >> ./target/classes/.env
+  - echo DB_USERNAME=$DBUSER >> ./target/classes/.env
+  - echo DB_PASSWORD=$DBPASS >> ./target/classes/.env
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
