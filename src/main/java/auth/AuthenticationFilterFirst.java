@@ -2,7 +2,7 @@ package auth;
 
 import dao.IUserDAO;
 import dao.UserDAO;
-import dto.UserDTO;
+import dto.User;
 import jdbclib.DALException;
 import jdbclib.DBConnector;
 import jdbclib.DatabaseConnection;
@@ -89,7 +89,7 @@ public class AuthenticationFilterFirst implements javax.ws.rs.container.Containe
         // TODO: Change this so it uses permissions instead of roles
 
         IUserDAO userDAO = null;
-        UserDTO dbUser = null;
+        User dbUser = null;
 
         try {
             userDAO = new UserDAO(new DBConnector(new DatabaseConnection()));

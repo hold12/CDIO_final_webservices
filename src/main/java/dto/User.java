@@ -1,6 +1,6 @@
 package dto;
 
-public class UserDTO {
+public class User {
 	private int userId;
 	private String firstname;
 	private String lastname;
@@ -8,9 +8,9 @@ public class UserDTO {
 	private String password;
     private boolean isActive;
 
-    public UserDTO() {}
+    public User() {}
 
-    public UserDTO(int userId, String firstname, String lastname, String initials, String password, boolean isActive) {
+    public User(int userId, String firstname, String lastname, String initials, String password, boolean isActive) {
 		this.userId = userId;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -19,16 +19,16 @@ public class UserDTO {
         this.isActive = isActive;
     }
 
-	public UserDTO(String userId, String firstname, String lastname, String initials, String password, String isActive) {
-		this.userId = Integer.parseInt(userId);
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.initials = initials;
-		this.password = password;
-		this.isActive = Boolean.parseBoolean(isActive);
+	public User(Credentials credentials) {
+		this.userId = credentials.getUserId();
+		this.firstname = "";
+		this.lastname = "";
+		this.initials = "";
+		this.password = credentials.getPassword();
+		this.isActive = true;
 	}
 
-    public UserDTO(UserDTO user) {
+    public User(User user) {
     	this.userId = user.getUserId();
     	this.firstname = user.getFirstname();
     	this.lastname = user.getLastname();
@@ -60,7 +60,7 @@ public class UserDTO {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		UserDTO that = (UserDTO) o;
+		User that = (User) o;
 
 		if (userId != that.userId) return false;
 		if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
