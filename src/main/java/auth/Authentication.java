@@ -3,8 +3,7 @@ package auth;
 import dao.UserDAO;
 import dto.Credentials;
 import dto.User;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import jdbclib.*;
 
 //import javax.ws.rs.*;
@@ -16,6 +15,7 @@ import java.net.URI;
 import java.sql.SQLException;
 import java.util.Date;
 import config.Config;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by awo on 08/06/17.
