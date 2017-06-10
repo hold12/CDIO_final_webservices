@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.Date;
+import config.Config;
 
 /**
  * Created by awo on 08/06/17.
@@ -24,7 +25,6 @@ public class Authentication {
     @POST
     @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response authenticateUser(Credentials inputCredentials) {
         String token = issueToken(inputCredentials);
 
@@ -63,7 +63,7 @@ public class Authentication {
                 .setIssuer("hold12")
                 .claim("user", new User(credentials))
                 .setExpiration(twoHoursFromNow)
-                .signWith(SignatureAlgorithm.HS512, AppConfig.AUTH_KEY)
+                .signWith(SignatureAlgorithm.HS512, Config.AUTH_KEY)
                 .compact();
     }
 

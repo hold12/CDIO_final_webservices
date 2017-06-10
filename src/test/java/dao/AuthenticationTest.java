@@ -1,6 +1,6 @@
 package dao;
 
-import auth.AppConfig;
+import config.Config;
 import auth.Authentication;
 import dto.Credentials;
 import dto.User;
@@ -27,7 +27,7 @@ public class AuthenticationTest {
         final Date currentDate = new Date();
 
         String actualToken = auth.issueToken(credentials);
-        Claims claims = Jwts.parser().setSigningKey(AppConfig.AUTH_KEY).parseClaimsJws(actualToken).getBody();
+        Claims claims = Jwts.parser().setSigningKey(Config.AUTH_KEY).parseClaimsJws(actualToken).getBody();
 
         assertEquals(expectedIssuer, claims.getIssuer());
         assertTrue(currentDate.getTime() < claims.getExpiration().getTime());
