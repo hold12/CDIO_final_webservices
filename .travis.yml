@@ -5,7 +5,6 @@ jdk:
 before_install:
   - pwd
   - ls
-  - ls target
   - find . -name sql.properties
   - find . -name classes
 #  - echo DB_HOST=$DBHOST >> ./target/classes/.env
