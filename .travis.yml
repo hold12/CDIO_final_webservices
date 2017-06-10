@@ -3,11 +3,8 @@ jdk:
   - oraclejdk8
 
 before_install:
-  - echo DB_HOST=$DBHOST >> src/main/resourves/.env
-  - echo DB_PORT=$DBPORT >> src/main/resourves/.env
-  - echo DB_DATABASE=$DBNAME >> src/main/resourves/.env
-  - echo DB_USERNAME=$DBUSER >> src/main/resourves/.env
-  - echo DB_PASSWORD=$DBPASS >> src/main/resourves/.env
+  - ls
+  - find . -name sql.properties
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
