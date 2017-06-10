@@ -27,6 +27,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
         // Check if the HTTP authorization header is present and formatted correctly
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            System.err.println("Not authorized!");
             throw new NotAuthorizedException("Authorization header must be provided");
         }
 
