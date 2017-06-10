@@ -1,6 +1,6 @@
 package dao;
 
-import dto.UserDTO;
+import dto.User;
 import jdbclib.DALException;
 
 /**
@@ -8,9 +8,9 @@ import jdbclib.DALException;
  */
 public class TestUserDAO implements IUserDAO {
     @Override
-    public UserDTO getUser(int userId) throws DALException {
-        UserDTO activeUser   = new UserDTO(1, "John", "Doe", "JD", "password", true);
-        UserDTO inactiveUser = new UserDTO(2, "Jane", "Smith", "JS", "jsLover", false);
+    public User getUser(int userId) throws DALException {
+        User activeUser   = new User(1, "John", "Doe", "JD", "password", true);
+        User inactiveUser = new User(2, "Jane", "Smith", "JS", "jsLover", false);
 
         return (userId == 1) ? activeUser : inactiveUser;
     }

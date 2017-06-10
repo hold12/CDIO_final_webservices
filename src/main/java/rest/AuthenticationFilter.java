@@ -1,21 +1,5 @@
 package rest;
 
-import dto.UserDTO;
-import org.glassfish.jersey.internal.util.Base64;
-
-import javax.annotation.security.DenyAll;
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.ResourceInfo;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.Provider;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.*;
-
 /**
  * Created by awo on 08/06/17.
  */
@@ -74,7 +58,7 @@ import java.util.*;
 //    }
 //
 //    private boolean isUserAllowed(final int userId, final String password, final Set<String> rolesSet) {
-//        UserDTO dbUser = new UserDTO(1, "John", "Doe", "JD", "password123", true);
+//        User dbUser = new User(1, "John", "Doe", "JD", "password123", true);
 //
 //        if (userId == dbUser.getUserId() && password.equals(dbUser.getPassword()) && dbUser.isActive()) {
 //            String userRole = "Admin";

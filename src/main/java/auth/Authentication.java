@@ -1,21 +1,21 @@
 package auth;
 
 import dao.UserDAO;
-import dto.UserDTO;
+import dto.Credentials;
+import dto.User;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jdbclib.*;
 
 //import javax.ws.rs.*;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.Date;
+import config.Config;
 
 /**
  * Created by awo on 08/06/17.
@@ -25,47 +25,52 @@ public class Authentication {
     @POST
     @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(UserDTO actualUser) {
-        String output;
+    public Response authenticateUser(Credentials inputCredentials) {
+        String token = issueToken(inputCredentials);
 
-        IConnector db;
-        UserDAO userDAO;
-        UserDTO dbUser = null;
+        return authenticate(inputCredentials) ?
+            Response.ok(token).build() :
+            Response.status(Response.Status.UNAUTHORIZED).build();
+    }
 
+    public boolean authenticate(Credentials credentials) {
         try {
-            db = new DBConnector(new DatabaseConnection("h12-dev.wiberg.tech", 3306, "cdio_final", "hold12", "2017_h0lD!2"));
+            IConnector db = new DBConnector(new DatabaseConnection());
             db.connectToDatabase();
-            userDAO = new UserDAO(db);
-            dbUser = userDAO.getUser(actualUser.getUserId());
-//        } catch (IOException e) {
-//            System.err.println(e.getMessage());
-        } catch (DALException e) {
-            System.err.println(e.getMessage());
+
+            UserDAO userDAO = new UserDAO(db);
+            User dbUser = userDAO.getUser(credentials.getUserId());
+
+            return dbUser != null &&  credentials.getPassword().equals(dbUser.getPassword()) && dbUser.isActive();
+
+        } catch (IOException e) {
+            System.err.println("Environment has not been set (.env).");
         } catch (ClassNotFoundException e) {
-            System.err.println("No JDBC. " + e.getMessage());
+            System.err.println("JDBC library is missing.");
         } catch (SQLException e) {
             System.err.println("SQL Error: " + e.getMessage());
+        } catch (DALException e) {
+            System.err.println("Failed to connect to database: " + e.getMessage());
         }
 
-        if (dbUser == null) {
-            output = "User (" + actualUser.getUserId() + ")does not exist in the database.";
-            return Response.status(401).entity(output).build();
-        }
+        return false;
+    }
 
-        if (actualUser.getUserId() == dbUser.getUserId() && actualUser.getPassword().equals(dbUser.getPassword()) && dbUser.isActive()) {
-            output = "Authenticated as " + dbUser.getFirstname() + " " + dbUser.getLastname() + ".";
-            return Response.status(200).entity(output).build();
-        }
-
-        output = "Unauthorized. User : " + actualUser.toString();
-        return Response.status(401).entity(output).build();
+    public String issueToken(Credentials credentials) {
+        Date today = new Date();
+        Date twoHoursFromNow = new Date(today.getTime() + (1000 * 60 * 60 * 2));
+        return Jwts.builder()
+                .setIssuer("hold12")
+                .claim("user", new User(credentials))
+                .setExpiration(twoHoursFromNow)
+                .signWith(SignatureAlgorithm.HS512, Config.AUTH_KEY)
+                .compact();
     }
 
     @GET
     @Path("get/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public UserDTO getUser(@PathParam("userId") int id) {
-        // TODO: How do I import my jdbclib-1.2 in maven?
+    public User getUser(@PathParam("userId") int id) {
         IConnector db = null;
 
         try {
@@ -77,16 +82,15 @@ public class Authentication {
         }
 
         UserDAO userDAO = new UserDAO(db);
-        UserDTO userDTO = null;
+        User user = null;
 
         try {
-            userDTO = userDAO.getUser(id);
-
+            user = userDAO.getUser(id);
             db.close();
-        } catch (Exception e) {
+        } catch (DALException | NullPointerException e) {
             e.printStackTrace();
         }
-        return userDTO;
+        return user;
     }
 
     @GET

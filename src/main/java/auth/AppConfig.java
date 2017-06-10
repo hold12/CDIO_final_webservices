@@ -8,4 +8,5 @@ import javax.ws.rs.core.Application;
  */
 @ApplicationPath("auth")
 public class AppConfig extends Application {
+
 }
