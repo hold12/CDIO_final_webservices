@@ -7,6 +7,8 @@ import jdbclib.IConnector;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -35,5 +37,17 @@ public class IUserDAOTest {
         final User actualUser = userDAO.getUser(0);
 
         assertNull(actualUser);
+    }
+
+    @Test
+    public void getAllUsers() throws Exception {
+        final IConnector db = new DBConnector(new DatabaseConnection());
+        final IUserDAO userDAO = new UserDAO(db);
+        final User expectedFirstUser = new User(1, "admin", null, "adm", "root", true);
+
+        final List<User> users = userDAO.getUserList();
+
+        assertTrue(users.size() > 0);
+        assertEquals(expectedFirstUser, users.get(0));
     }
 }

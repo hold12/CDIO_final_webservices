@@ -4,6 +4,8 @@ import dto.User;
 import jdbclib.DALException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.List;
+
 /**
  * Created by awo on 09/06/17.
  */
@@ -19,6 +21,11 @@ public class TestUserDAO implements IUserDAO {
 
     @Override
     public User getUser(String token) throws DALException {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<User> getUserList() throws DALException {
         throw new NotImplementedException();
     }
 }
