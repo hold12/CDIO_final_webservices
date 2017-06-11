@@ -17,7 +17,7 @@ if (!!$.cookie("auth_token")) {
                 console.log("Not authorized");
             }
         }
-        });
+    });
 }
 else {
     console.log("Not logged in");

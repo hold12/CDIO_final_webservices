@@ -58,4 +58,12 @@ public class UserModule {
         throw new NotImplementedException();
     }
 
+    @AuthenticationEndpoint.Secured
+    @POST
+    @Path("update}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User updateUser(User user) {
+        throw new NotImplementedException();
+    }
 }

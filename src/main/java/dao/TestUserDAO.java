@@ -28,4 +28,9 @@ public class TestUserDAO implements IUserDAO {
     public List<User> getUserList() throws DALException {
         throw new NotImplementedException();
     }
+
+    @Override
+    public void updateUser(User user) throws DALException {
+        throw new NotImplementedException();
+    }
 }
