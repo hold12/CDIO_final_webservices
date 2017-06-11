@@ -16,7 +16,7 @@ if (!!$.cookie("auth_token")) {
         e.preventDefault();
 
         $.ajax({
-            url: 'auth/gettest/get/' + $("#userId").val(),
+            url: 'module/user/get/' + $("#userId").val(),
             method: 'POST',
             contentType: 'application/json; charset=UTF-8',
             headers : {'Authorization': authHeader},

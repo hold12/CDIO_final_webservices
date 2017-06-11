@@ -1,5 +1,6 @@
-package auth;
+package modules;
 
+import auth.AuthenticationEndpoint;
 import dao.UserDAO;
 import dto.User;
 import jdbclib.DALException;
@@ -15,8 +16,8 @@ import java.net.URI;
 /**
  * Created by AndersWOlsen on 10-06-2017.
  */
-@Path("gettest")
-public class users {
+@Path("user")
+public class UserAdmin {
     @AuthenticationEndpoint.Secured
     @POST
     @Path("get/{userId}")
