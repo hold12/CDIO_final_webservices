@@ -1,6 +1,9 @@
 package dao;
 
+import config.Config;
 import dto.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jdbclib.*;
 
 import java.sql.ResultSet;
@@ -51,6 +54,11 @@ public class UserDAO implements IUserDAO {
         } catch (SQLException e) {
             throw new DALException(e);
         }
+    }
+
+    public User getUser(String token) throws DALException {
+        final Claims claims = Jwts.parser().setSigningKey(Config.AUTH_KEY).parseClaimsJws(token).getBody();
+        return getUser(Integer.parseInt(claims.getSubject()));
     }
 
 //    public List<User> getUserList() throws DALException {

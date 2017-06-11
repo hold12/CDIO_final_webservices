@@ -65,6 +65,7 @@ public class User {
 		if (userId != that.userId) return false;
 		if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
 		if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+		if (lastname == null && that.lastname == null) return true;
 		if (initials != null ? !initials.equals(that.initials) : that.initials != null) return false;
 		if (password != null ? password.equals(that.password) : that.password == null) return false;
 		return isActive != that.isActive;

@@ -1,23 +1,28 @@
 package modules;
 
 import auth.AuthenticationEndpoint;
+import com.sun.org.apache.bcel.internal.generic.ICONST;
+import dao.IUserDAO;
 import dao.UserDAO;
 import dto.User;
 import jdbclib.DALException;
 import jdbclib.DBConnector;
 import jdbclib.DatabaseConnection;
 import jdbclib.IConnector;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 /**
  * Created by AndersWOlsen on 10-06-2017.
  */
 @Path("user")
-public class UserAdmin {
+public class UserModule {
     @AuthenticationEndpoint.Secured
     @POST
     @Path("get/{userId}")
@@ -27,7 +32,6 @@ public class UserAdmin {
 
         try {
             db = new DBConnector(new DatabaseConnection());
-            db.connectToDatabase();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             Response.temporaryRedirect(URI.create("/auth/user/error"));
@@ -36,13 +40,23 @@ public class UserAdmin {
         UserDAO userDAO = new UserDAO(db);
         User user = null;
 
-        try {
-            user = userDAO.getUser(id);
-            db.close();
-        } catch (DALException | NullPointerException e) {
-            e.printStackTrace();
-        }
         return user;
+    }
+
+    @AuthenticationEndpoint.Secured
+    @POST
+    @Path("get/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<User> getAllUsers() {
+        try {
+            final IConnector db = new DBConnector(new DatabaseConnection());
+            final IUserDAO userDAO = new UserDAO(db);
+
+
+        } catch (IOException e) {
+
+        }
+        throw new NotImplementedException();
     }
 
 }

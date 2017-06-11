@@ -73,9 +73,23 @@ public class AuthenticationEndpoint {
 
         Date today = new Date();
         Date twoHoursFromNow = new Date(today.getTime() + (1000 * 60 * 60 * 2));
-        return Jwts.builder()
+
+        User dbUser = null;
+
+        try {
+            IConnector db = new DBConnector(new DatabaseConnection());
+            db.connectToDatabase();
+
+//            System.out.println("Database connected");
+
+            UserDAO userDAO = new UserDAO(db);
+            dbUser = userDAO.getUser(userId);
+        } catch (Exception e) { /* TODO: Catch something here... */ }
+
+        return Jwts.builder() // TODO: Might throw NullPointerException...
                 .setIssuer("hold12")
-                .claim("user", new User(userId)) // TODO: Get full user DTO??
+                .claim("user", dbUser) // TODO: Get full user DTO??
+                .setSubject(new Integer(dbUser.getUserId()).toString())
                 .setExpiration(twoHoursFromNow)
                 .signWith(SignatureAlgorithm.HS512, Config.AUTH_KEY)
                 .compact();

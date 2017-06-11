@@ -1,9 +1,15 @@
 package auth;
 
 import config.Config;
+import dao.IUserDAO;
+import dao.UserDAO;
 import dto.Credentials;
+import dto.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import jdbclib.DBConnector;
+import jdbclib.DatabaseConnection;
+import jdbclib.IConnector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -77,5 +83,17 @@ public class AuthenticationEndpointTest extends AuthenticationEndpoint {
     @Test(expected = Exception.class)
     public void invaludUser_CannotAuthenticate() throws Exception {
         authenticate(invalidCredentials);
+    }
+
+    @Test
+    public void readUserFromToken() throws Exception {
+        final IConnector db = new DBConnector(new DatabaseConnection());
+        final IUserDAO userDAO = new UserDAO(db);
+        final User EXPECTED_USER = userDAO.getUser(validCredentials.getUserId());
+
+        final String token = issueToken(EXPECTED_USER.getUserId());
+        final User ACTUAL_USER = userDAO.getUser(token);
+
+        assertEquals(EXPECTED_USER, ACTUAL_USER);
     }
 }
