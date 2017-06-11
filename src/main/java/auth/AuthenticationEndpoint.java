@@ -46,7 +46,7 @@ public class AuthenticationEndpoint {
         }
     }
 
-    private void authenticate(Credentials credentials) throws Exception { // TODO: Find a better Exception to use
+    void authenticate(Credentials credentials) throws Exception { // TODO: Find a better Exception to use
         // Authenticate against database
         // Throw exception if credentials is
         try {
@@ -67,7 +67,7 @@ public class AuthenticationEndpoint {
         }
     }
 
-    private String issueToken(int userId) {
+    String issueToken(int userId) {
         // Issue a token
         // TODO: should the token get saved in the database?
 

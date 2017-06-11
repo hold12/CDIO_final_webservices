@@ -43,7 +43,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         }
     }
 
-    private void validateToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException { // TODO: Find another fitting exception
+    void validateToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException { // TODO: Find another fitting exception
         // Check if it was issued by the server and if it's not expired
         // Throw an Exception if the token is invalid
 
