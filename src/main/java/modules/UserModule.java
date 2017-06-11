@@ -1,7 +1,6 @@
 package modules;
 
 import auth.AuthenticationEndpoint;
-import com.sun.org.apache.bcel.internal.generic.ICONST;
 import dao.IUserDAO;
 import dao.UserDAO;
 import dto.User;
@@ -29,16 +28,16 @@ public class UserModule {
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam("userId") int id) {
         IConnector db = null;
+        User user = null;
 
         try {
             db = new DBConnector(new DatabaseConnection());
+            UserDAO userDAO = new UserDAO(db);
+            user = userDAO.getUser(id);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             Response.temporaryRedirect(URI.create("/auth/user/error"));
         }
-
-        UserDAO userDAO = new UserDAO(db);
-        User user = null;
 
         return user;
     }
@@ -52,9 +51,9 @@ public class UserModule {
             final IConnector db = new DBConnector(new DatabaseConnection());
             final IUserDAO userDAO = new UserDAO(db);
 
-
-        } catch (IOException e) {
-
+            return userDAO.getUserList();
+        } catch (IOException | DALException e) {
+            System.out.println(e); // TODO: Throw a better exception and catch frontend
         }
         throw new NotImplementedException();
     }
