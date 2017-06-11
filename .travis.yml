@@ -15,6 +15,8 @@ before_install:
   - echo DB_PASSWORD=$DBPASS >> ./target/classes/.env
   - ls -alh ./target/classes
 
+script: "mvn cobertura:cobertura"
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
