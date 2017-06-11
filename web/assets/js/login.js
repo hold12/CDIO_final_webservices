@@ -22,6 +22,16 @@
 //     setTimeout(function(){}, 30);
 // });
 
+$(function() {
+   if (!!$.cookie("auth_token")) {
+       if (confirm("Authentication token already exists. Remove existing token?")) {
+           $.removeCookie("auth_token");
+       } else {
+           $(location).attr('href', '/');
+       }
+   }
+});
+
 $("#submit-login").click(function(e) {
    var form = $("#login-form").serializeJSON();
    console.log(form);
@@ -32,9 +42,12 @@ $("#submit-login").click(function(e) {
        contentType: 'application/json; charset=UTF-8',
        data: form,
        complete: function(result) {
-          console.log("Status Code: " + result.status + ". Authentication Complete " + result.responseText);
+          //console.log("Status Code: " + result.status + ". Authentication Complete " + result.responseText);
           if (result.status == 200) {
-              $.cookie("auth_token", result.reponseText);
+              // $.cookie("auth_token", result.reponseText, { expires: 1});
+              $.cookie("auth_token", "" + result.responseText);
+              console.log("Cookie: " + $.cookie("auth_token"));
+              $(location).attr('href', '/');
           } else if (result.status == 401) {
               $.removeCookie("auth_token");
           }
