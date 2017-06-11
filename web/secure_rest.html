@@ -10,10 +10,17 @@
 </head>
 <body>
 
-<h1>Testing...</h1>
-<input type="text" id="token">
-<div id="message"></div>
-<button id="submit">Submit</button>
+<h1>Secured Page</h1>
+<p id="error"><strong>Error Message: </strong><span id="error-message"></span></p>
+<div id="message">
+    <div id="secure-data">
+        <form>
+            <input type="text" id="userId" placeholder="Enter a user id" required>
+            <button id="submit-user">Submit</button>
+        </form>
+        <p id="userOutput"><strong>User: </strong><span id="user-json">User not fetched yet.</span></p>
+    </div>
+</div>
 <script src="assets/js/secured.js"></script>
 </body>
 </html>

@@ -2,24 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hold12 - Index</title>
+    <title>Listing all users</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 </head>
 <body>
-<h1>Hello, World!</h1>
-<p>This is home.</p>
+<h1>All Users</h1>
+<p id="users"></p>
 
-<a href="login.html">Log In</a><br />.
-<a href="secure_rest.html">Edit Users</a>.
-<a href="all_users.html">List All Users</a>.
-
-<p id="user-json"></p>
-
-<!--<script src="assets/js/getUser.js"></script>--> <!-- TODO: Get User ID later, right now it doesn't work -->
+<script src="assets/js/getStuff.js"></script>
 <script>
-    console.log("Baking delicious cookies for you...");
+    getSecureData("/module/user/get/all", function(output) {
+       $("#users").html(output);
+    });
 </script>
 </body>
 </html>

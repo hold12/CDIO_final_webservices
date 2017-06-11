@@ -2,6 +2,9 @@ package dao;
 
 import dto.User;
 import jdbclib.DALException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.util.List;
 
 /**
  * Created by awo on 09/06/17.
@@ -14,5 +17,25 @@ public class TestUserDAO implements IUserDAO {
         userArr[1] = new User(2, "Jane", "Smith", "JS", "jsLover", false);
 
         return (userId >= 1 && userId <= userArr.length) ? userArr[userId - 1] : null;
+    }
+
+    @Override
+    public User getUser(String token) throws DALException {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public List<User> getUserList() throws DALException {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public void updateUser(User user) throws DALException {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public User getFullUser(int userId) throws DALException {
+        throw new NotImplementedException();
     }
 }

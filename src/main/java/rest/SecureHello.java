@@ -14,8 +14,8 @@ public class SecureHello {
     @RolesAllowed("Admin")
     @GET
     @Path("hello")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public String secureHello() {
-        return "Hello from Rest. This is a secured resource - only logged in users can see this.";
+        return "Hello from Rest. This is a secured resource - only logged in UserModule can see this.";
     }
 }

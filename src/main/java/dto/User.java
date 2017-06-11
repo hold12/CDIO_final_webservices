@@ -1,5 +1,8 @@
 package dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
 	private int userId;
 	private String firstname;
@@ -7,6 +10,7 @@ public class User {
 	private String initials;
 	private String password;
     private boolean isActive;
+    private List<Role> roles;
 
     public User() {}
 
@@ -17,7 +21,18 @@ public class User {
 		this.initials = initials;
 		this.password = password;
         this.isActive = isActive;
+        this.roles = new ArrayList<>();
     }
+
+	public User(int userId, String firstname, String lastname, String initials, String password, boolean isActive, List<Role> roles) {
+		this.userId = userId;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.initials = initials;
+		this.password = password;
+		this.isActive = isActive;
+		this.roles = roles;
+	}
 
 	public User(int userId) {
 		this.userId = userId;
@@ -60,14 +75,15 @@ public class User {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		User that = (User) o;
+		User user = (User) o;
 
-		if (userId != that.userId) return false;
-		if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-		if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
-		if (initials != null ? !initials.equals(that.initials) : that.initials != null) return false;
-		if (password != null ? password.equals(that.password) : that.password == null) return false;
-		return isActive != that.isActive;
+		if (userId != user.userId) return false;
+		if (isActive != user.isActive) return false;
+		if (!firstname.equals(user.firstname)) return false;
+		if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
+		if (!initials.equals(user.initials)) return false;
+		if (!password.equals(user.password)) return false;
+		return roles.equals(user.roles);
 	}
 
 	public String toString() {
