@@ -30,7 +30,8 @@ public class UserDAO implements IUserDAO {
             System.err.println(e.getMessage());
         }
 
-        ResultSet rs = connector.query("SELECT * FROM web_user WHERE user_id = " + Integer.toString(userId));
+//        ResultSet rs = connector.query("SELECT * FROM web_user WHERE user_id = " + Integer.toString(userId));
+        ResultSet rs = connector.query(Queries.getFormatted("user.select.where.id", Integer.toString(userId)));
 
         try {
             if (!rs.first()) return null;
