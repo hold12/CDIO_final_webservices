@@ -13,6 +13,7 @@ before_install:
   - echo DB_DATABASE=$DBNAME >> ./target/classes/.env
   - echo DB_USERNAME=$DBUSER >> ./target/classes/.env
   - echo DB_PASSWORD=$DBPASS >> ./target/classes/.env
+  - ls -alh ./target/classes
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
