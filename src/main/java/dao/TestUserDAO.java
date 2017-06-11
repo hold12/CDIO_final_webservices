@@ -13,6 +13,6 @@ public class TestUserDAO implements IUserDAO {
         userArr[0] = new User(1, "John", "Doe", "JD", "password", true);
         userArr[1] = new User(2, "Jane", "Smith", "JS", "jsLover", false);
 
-        return (userId == 1 || userId == 2) ? userArr[userId - 1] : null;
+        return (userId >= 1 && userId <= userArr.length) ? userArr[userId - 1] : null;
     }
 }
