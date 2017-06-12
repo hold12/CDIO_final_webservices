@@ -1,5 +1,6 @@
 package auth;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Config;
 import dao.IUserDAO;
 import dao.UserDAO;
@@ -31,17 +32,11 @@ import java.security.Principal;
 public class AuthenticationFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        IConnector db = null;
-        try {
-            db = new DBConnector(new DatabaseConnection());
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-        final IUserDAO userDAO = new UserDAO(db);
+        // TODO: user from context (cookie)
+
 
         // Get HTTP Authorization header from the request
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-
         // Check if the HTTP authorization header is present and formatted correctly
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             System.err.println("Not authorized!");
@@ -51,6 +46,10 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         // Extract the token from the HTTP Authorization header
         String token = authorizationHeader.substring("Bearer".length()).trim();
 
+        Claims claims = Jwts.parser().setSigningKey(Config.AUTH_KEY).parseClaimsJws(token).getBody();
+        ObjectMapper objectMapper = new ObjectMapper();
+        User user = objectMapper.convertValue(claims.get("user"), User.class);
+
         try {
             validateToken(token);
         } catch(Exception e) { // TODO: Better exception handling here
@@ -58,39 +57,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
                     Response.status(Response.Status.UNAUTHORIZED).build()
             );
         }
-
-        // Identifying users
-        final SecurityContext currentSecurityContext = requestContext.getSecurityContext();
-        requestContext.setSecurityContext(new SecurityContext() {
-            @Override
-            public Principal getUserPrincipal() {
-                return new Principal() {
-                    @Override
-                    public String getName() {
-                        User authenticatedUser = null;
-                        try {
-                            authenticatedUser = userDAO.getUser(authorizationHeader.substring("Bearer".length()).trim());
-                        } catch (DALException e) { /* TODO: Handle this exception */ }
-                        return Integer.toString(authenticatedUser.getUserId());
-                    }
-                };
-            }
-
-            @Override
-            public boolean isUserInRole(String s) {
-                return false; // TODO: check if the user has the role 's'
-            }
-
-            @Override
-            public boolean isSecure() {
-                return currentSecurityContext.isSecure();
-            }
-
-            @Override
-            public String getAuthenticationScheme() {
-                return "Bearer";
-            }
-        });
     }
 
     void validateToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException { // TODO: Maybe test some more exceptions

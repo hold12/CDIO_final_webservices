@@ -84,12 +84,12 @@ public class AuthenticationEndpoint {
 
             UserDAO userDAO = new UserDAO(db);
             dbUser = userDAO.getUser(userId);
+            dbUser.setPassword("[hidden]");
         } catch (Exception e) { /* TODO: Catch something here... */ }
 
         return Jwts.builder() // TODO: Might throw NullPointerException...
                 .setIssuer("hold12")
                 .claim("user", dbUser) // TODO: Get full user DTO??
-                .setSubject(new Integer(dbUser.getUserId()).toString())
                 .setExpiration(twoHoursFromNow)
                 .signWith(SignatureAlgorithm.HS512, Config.AUTH_KEY)
                 .compact();
@@ -98,5 +98,7 @@ public class AuthenticationEndpoint {
     @NameBinding
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE, ElementType.METHOD})
-    public @interface Secured {  }
+    public @interface Secured {
+
+    }
 }
