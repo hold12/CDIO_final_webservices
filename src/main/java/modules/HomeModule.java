@@ -1,14 +1,19 @@
 package modules;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import config.Config;
 import dao.IUserDAO;
 import dao.UserDAO;
 import dto.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import jdbclib.DALException;
 import jdbclib.DBConnector;
 import jdbclib.IConnector;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,30 +28,26 @@ import java.sql.SQLException;
  */
 @Path("home")
 public class HomeModule {
-    @Context ServletRequest servletRequest;
-
     @Path("getLoggedUser")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public User getLoggedUser(@Context SecurityContext securityContext) {
-        final Principal principal = securityContext.getUserPrincipal();
-        HttpServletRequest h = (HttpServletRequest) servletRequest;
-//        h.getHeader()
+    public User getLoggedUser(@Context HttpServletRequest servletRequest) {
+        final String header = servletRequest.getHeader("Authorization");
+        final String token = header.substring("Bearer".length()).trim();
+//        System.out.println("Token received: " + token);
 
-        int userId = 0;
-        try {
-            userId = Integer.parseInt(principal.getName());
+        final IUserDAO userDAO = new UserDAO();
+        final User user = userDAO.getUser(token);
+        System.out.println("User logged in: " + user.getFirstname() + " " + user.getLastname());
+        return user;
+    }
 
-            final IConnector db = new DBConnector();
-            final IUserDAO userDAO = new UserDAO(db);
-            final User authenticatedUser = userDAO.getUser(userId);
+    @Path("test")
+    @POST
+    public String test(@Context HttpServletRequest serv) {
+        String header = serv.getHeader("Authorization");
+        String token = header.substring("Bearer".length()).trim();
 
-            return authenticatedUser;
-        } catch (NumberFormatException e) {
-            // Not authenticated???
-            return new User(-1, "", "", "", "", false);
-        } catch (DALException e) {
-            return null; // TODO: throw an exception instead.
-        }
+        return token;
     }
 }
