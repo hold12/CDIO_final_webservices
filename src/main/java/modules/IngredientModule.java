@@ -23,19 +23,15 @@ public class IngredientModule {
     @Path("get/{ingredientId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Ingredient getIngredient(@PathParam("ingredientId") int id) {
-        IConnector db;
-        Ingredient ingredient = null;
-
         try {
-            db = new DBConnector(new DatabaseConnection());
-            IIngredientDAO ingredientDAO = new IngredientDAO(db);
-            ingredient = ingredientDAO.getIngredient(id);
-        } catch (Exception e) { // TODO: Implement better exception handling
-            System.out.println("Error: " + e.getMessage());
-            Response.temporaryRedirect(URI.create("/auth/ingredient/error"));
-        }
+            final IConnector db = new DBConnector(new DatabaseConnection());
+            final IIngredientDAO ingredientDAO = new IngredientDAO(db);
 
-        return ingredient;
+            return ingredientDAO.getIngredient(id);
+        } catch (IOException | DALException e) {
+            System.err.println(e.getMessage()); // TODO: Throw a better exception and catch frontend
+            return null;
+        }
     }
 
     @AuthenticationEndpoint.Secured
@@ -49,7 +45,7 @@ public class IngredientModule {
 
             return ingredientDAO.getIngredientList();
         } catch (IOException | DALException e) {
-            System.out.println(e); // TODO: Throw a better exception and catch frontend
+            System.err.println(e.getMessage()); // TODO: Throw a better exception and catch frontend
             return null;
         }
     }
@@ -63,13 +59,13 @@ public class IngredientModule {
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
             final IIngredientDAO ingredientDAO = new IngredientDAO(db);
-
             final int ingredientId = ingredientDAO.createIngredient(ingredient);
 
             ingredient.setIngredientId(ingredientId);
+
             return ingredient;
         } catch (IOException | DALException e) {
-            System.out.println(e); // TODO: Throw a better exception and catch frontend
+            System.err.println(e.getMessage()); // TODO: Throw a better exception and catch frontend
             return null;
         }
     }
