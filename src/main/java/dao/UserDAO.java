@@ -22,7 +22,12 @@ public class UserDAO implements IUserDAO {
         this.db = db;
     }
 
+    public UserDAO() {}
+
     public User getUser(int userId) throws DALException {
+        if (this.db == null)
+            throw new DALException("No database specified.");
+
         User returnedUser;
 
         try {
@@ -58,6 +63,9 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public User getFullUser(int userId) throws DALException {
+        if (this.db == null)
+            throw new DALException("No database specified.");
+
         try {
             db.connectToDatabase();
 
@@ -66,8 +74,7 @@ public class UserDAO implements IUserDAO {
             ));
 
             if (!rsUser.first()) return null;
-            System.out.println(Queries.getFormatted("user.select.roles", "3"));
-            ResultSet rsRoles = db.query(Queries.getFormatted("user.select.roles", "3"));
+            ResultSet rsRoles = db.query(Queries.getFormatted("user.select.roles", Integer.toString(userId)));
 
             List<Role> userRoles = new ArrayList<>();
             while(rsRoles.next()) {
@@ -94,7 +101,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public User getUser(String token) throws DALException {
+    public User getUser(String token) {
         final Claims claims = Jwts.parser().setSigningKey(Config.AUTH_KEY).parseClaimsJws(token).getBody();
         final ObjectMapper objectMapper = new ObjectMapper();
         User user = objectMapper.convertValue(claims.get("user"), User.class);
@@ -103,6 +110,9 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public List<User> getUserList() throws DALException {
+        if (this.db == null)
+            throw new DALException("No database specified.");
+
         List<User> list = new ArrayList<User>();
 
         try {
@@ -117,14 +127,24 @@ public class UserDAO implements IUserDAO {
 
         try {
             while (rs.next()) {
+                ResultSet rsRoles = db.query(Queries.getFormatted("user.select.roles", Integer.toString(rs.getInt("user_id"))));
+                List<Role> userRoles = new ArrayList<>();
+                while(rsRoles.next()) {
+                    userRoles.add(new Role(
+                            rsRoles.getString("role_name"),
+                            rsRoles.getString("permission_names").split(",")
+                    ));
+                }
+
                 list.add(new User(
                         rs.getInt("user_id"),
                         rs.getString("firstname"),
                         rs.getString("lastname"),
                         rs.getString("initials"),
                         rs.getString("password"),
-                        rs.getBoolean("is_active"))
-                );
+                        rs.getBoolean("is_active"),
+                        userRoles
+                ));
             }
             db.close();
         } catch (SQLException e) {
@@ -135,6 +155,9 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public void updateUser(User user) throws DALException {
+        if (this.db == null)
+            throw new DALException("No database specified.");
+
         try {
             db.connectToDatabase();
         } catch (ClassNotFoundException | SQLException e) {
@@ -156,6 +179,9 @@ public class UserDAO implements IUserDAO {
 
     @Override
     public int createUser(User user) throws DALException {
+        if (this.db == null)
+            throw new DALException("No database specified.");
+
         try {
             db.connectToDatabase();
         } catch (ClassNotFoundException | SQLException e) {

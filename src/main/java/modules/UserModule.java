@@ -1,6 +1,7 @@
 package modules;
 
 import auth.AuthenticationEndpoint;
+import config.Permission;
 import dao.IUserDAO;
 import dao.UserDAO;
 import dto.User;
@@ -24,7 +25,7 @@ import java.util.List;
  */
 @Path("user")
 public class UserModule {
-    @AuthenticationEndpoint.Secured
+    @AuthenticationEndpoint.Secured(Permission.USER_READ)
     @POST
     @Path("get/{userId}")
     @Produces(MediaType.APPLICATION_JSON)

@@ -1,6 +1,8 @@
 package auth;
 
 import config.Config;
+import config.Permission;
+import config.Routes;
 import dao.UserDAO;
 import dto.Credentials;
 import dto.User;
@@ -22,7 +24,7 @@ import java.lang.annotation.Target;
 import java.sql.SQLException;
 import java.util.Date;
 
-@Path("authentication")
+@Path(Routes.AUTH_AUTHENTICATION)
 public class AuthenticationEndpoint {
     @POST
     @Produces(MediaType.TEXT_PLAIN)
@@ -83,13 +85,15 @@ public class AuthenticationEndpoint {
 //            System.out.println("Database connected");
 
             UserDAO userDAO = new UserDAO(db);
-            dbUser = userDAO.getUser(userId);
+            dbUser = userDAO.getFullUser(userId);
             dbUser.setPassword("[hidden]");
+            System.out.println("Endpoint, User roles: " + dbUser.getRoles().get(0).getRole_name());
+            System.out.println(dbUser);
         } catch (Exception e) { /* TODO: Catch something here... */ }
 
         return Jwts.builder() // TODO: Might throw NullPointerException...
-                .setIssuer("hold12")
-                .claim("user", dbUser) // TODO: Get full user DTO??
+                .setIssuer(Config.AUTH_ISSUER)
+                .claim(Config.CLAIM_USER, dbUser) // TODO: Get full user DTO??
                 .setExpiration(twoHoursFromNow)
                 .signWith(SignatureAlgorithm.HS512, Config.AUTH_KEY)
                 .compact();
@@ -99,6 +103,6 @@ public class AuthenticationEndpoint {
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE, ElementType.METHOD})
     public @interface Secured {
-
+        Permission[] value() default {};
     }
 }
