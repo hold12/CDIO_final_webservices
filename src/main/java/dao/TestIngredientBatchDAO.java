@@ -44,7 +44,8 @@ public class TestIngredientBatchDAO implements IIngredientBatchDAO {
     }
 
     @Override
-    public void createIngredientBatch(IngredientBatch ingredientBatch) throws DALException {
+    public int createIngredientBatch(IngredientBatch ingredientBatch) throws DALException {
         ingredientBatchList.add(ingredientBatch);
+        return ingredientBatch.getIngredientBatchId();
     }
 }

@@ -98,11 +98,30 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
     }
 
     @Override
-    public void createIngredientBatch(IngredientBatch ingredientBatch) throws DALException {
-        db.update(Queries.getFormatted(
+    public int createIngredientBatch(IngredientBatch ingredientBatch) throws DALException {
+        int id;
+        try {
+            db.connectToDatabase();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
+        ResultSet rs = db.query(Queries.getFormatted(
                 "ingredientbatch.insert",
                 Integer.toString(ingredientBatch.getIngredientId()),
                 Double.toString(ingredientBatch.getAmount())
         ));
+
+        try {
+            if (!rs.first()) return -1;
+
+            id = rs.getInt("ingredientbatch_id");
+
+            db.close();
+
+            return id;
+        } catch (SQLException e) {
+            throw new DALException(e);
+        }
     }
 }
