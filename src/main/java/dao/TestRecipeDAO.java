@@ -34,7 +34,8 @@ public class TestRecipeDAO implements IRecipeDAO {
     }
 
     @Override
-    public void createRecipe(Recipe recipe) throws DALException {
+    public int createRecipe(Recipe recipe) throws DALException {
         recipeList.add(recipe);
+        return recipe.getRecipeId();
     }
 }

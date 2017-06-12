@@ -77,10 +77,30 @@ public class RecipeDAO implements IRecipeDAO {
     }
 
     @Override
-    public void createRecipe(Recipe recipe) throws DALException {
-        db.update(Queries.getFormatted(
+    public int createRecipe(Recipe recipe) throws DALException {
+        int id;
+        try {
+            db.connectToDatabase();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
+        ResultSet rs = db.query(Queries.getFormatted(
                 "recipe.insert",
                 recipe.getRecipeName()
         ));
+
+
+        try {
+            if (!rs.first()) return -1;
+
+            id = rs.getInt("recipe_id");
+
+            db.close();
+
+            return id;
+        } catch (SQLException e) {
+            throw new DALException(e);
+        }
     }
 }

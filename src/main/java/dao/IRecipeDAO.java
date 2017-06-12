@@ -8,5 +8,5 @@ import java.util.List;
 public interface IRecipeDAO {
     Recipe getRecipe(int recipeId) throws DALException;
     List<Recipe> getRecipeList() throws DALException;
-    void createRecipe(Recipe recipe) throws DALException;
+    int createRecipe(Recipe recipe) throws DALException;
 }
