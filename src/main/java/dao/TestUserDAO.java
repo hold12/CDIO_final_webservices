@@ -20,7 +20,7 @@ public class TestUserDAO implements IUserDAO {
     }
 
     @Override
-    public User getUser(String token) throws DALException {
+    public User getUser(String token) {
         throw new NotImplementedException();
     }
 
