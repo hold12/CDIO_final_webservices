@@ -3,17 +3,15 @@ package modules;
 import auth.AuthenticationEndpoint;
 import dao.IIngredientDAO;
 import dao.IngredientDAO;
+import dto.Ingredient;
 import jdbclib.DALException;
 import jdbclib.DBConnector;
 import jdbclib.DatabaseConnection;
 import jdbclib.IConnector;
-import dto.Ingredient;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 
 @Path("ingredient")
