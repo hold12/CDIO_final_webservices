@@ -9,28 +9,28 @@ public class User {
 	private String lastname;
 	private String initials;
 	private String password;
-    private boolean isActive;
+    private boolean active;
     private List<Role> roles;
 
     public User() {}
 
-    public User(int userId, String firstname, String lastname, String initials, String password, boolean isActive) {
+    public User(int userId, String firstname, String lastname, String initials, String password, boolean active) {
 		this.userId = userId;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.initials = initials;
 		this.password = password;
-        this.isActive = isActive;
+        this.active = active;
         this.roles = new ArrayList<>();
     }
 
-	public User(int userId, String firstname, String lastname, String initials, String password, boolean isActive, List<Role> roles) {
+	public User(int userId, String firstname, String lastname, String initials, String password, boolean active, List<Role> roles) {
 		this.userId = userId;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.initials = initials;
 		this.password = password;
-		this.isActive = isActive;
+		this.active = active;
 		this.roles = roles;
 	}
 
@@ -40,7 +40,7 @@ public class User {
 		this.lastname = "";
 		this.initials = "";
 		this.password = "";
-		this.isActive = true;
+		this.active = true;
 	}
 
     public User(User user) {
@@ -49,7 +49,7 @@ public class User {
     	this.lastname = user.getLastname();
     	this.initials = user.getInitials();
     	this.password = user.getPassword();
-        this.isActive = user.isActive();
+        this.active = user.isActive();
     }
     
     public int getUserId() { return userId; }
@@ -63,11 +63,13 @@ public class User {
 	public String getPassword() { return password; }
 	public void setPassword(String password) { this.password = password; }
     public boolean isActive() {
-        return isActive;
+        return active;
     }
     public void setIsActive(boolean isActive) {
-    	this.isActive = isActive;
+    	this.active = isActive;
     }
+    public List<Role> getRoles() { return roles; }
+    public void setRoles(List<Role> roles) { this.roles = roles; }
 
 
 	@Override
@@ -78,7 +80,7 @@ public class User {
 		User user = (User) o;
 
 		if (userId != user.userId) return false;
-		if (isActive != user.isActive) return false;
+		if (active != user.active) return false;
 		if (!firstname.equals(user.firstname)) return false;
 		if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
 		if (!initials.equals(user.initials)) return false;
@@ -87,6 +89,6 @@ public class User {
 	}
 
 	public String toString() {
-        return userId + "\t" + firstname + "\t" + lastname + "\t" + initials + "\t" + password + "\t" + isActive;
+        return userId + "\t" + firstname + "\t" + lastname + "\t" + initials + "\t" + password + "\t" + active;
     }
 }
