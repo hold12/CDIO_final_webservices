@@ -38,4 +38,9 @@ public class TestUserDAO implements IUserDAO {
     public User getFullUser(int userId) throws DALException {
         throw new NotImplementedException();
     }
+
+    @Override
+    public int createUser(User user) throws DALException {
+        throw new NotImplementedException();
+    }
 }
