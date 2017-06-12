@@ -25,7 +25,6 @@ public class UserDAO implements IUserDAO {
     public User getUser(int userId) throws DALException {
         User returnedUser;
 
-
         try {
             db.connectToDatabase();
         } catch(ClassNotFoundException | SQLException e) {

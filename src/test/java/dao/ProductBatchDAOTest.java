@@ -1,16 +1,19 @@
 package dao;
 
 import dto.ProductBatch;
+import dto.ProductBatchComponent;
 import jdbclib.DBConnector;
 import jdbclib.DatabaseConnection;
 import jdbclib.IConnector;
 import org.junit.Test;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class ProductBatchDAOTest {
     @Test
@@ -20,6 +23,16 @@ public class ProductBatchDAOTest {
         final ProductBatch actualProductBatch = productBatchDAO.getProductBatch(0);
 
         assertNull(actualProductBatch);
+    }
+
+    @Test
+    public void getProductBatchList() throws Exception {
+        final IConnector db = new DBConnector(new DatabaseConnection());
+        final IProductBatchDAO productBatchDAO = new ProductBatchDAO(db);
+
+        final List<ProductBatch> productBatches = productBatchDAO.getProductBatchList();
+
+        assertTrue(productBatches.size() > 0);
     }
 
     @Test

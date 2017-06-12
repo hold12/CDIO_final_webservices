@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listing all users</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<body>
+<h1>All Ingredient Batches</h1>
+<p id="ingredientBatches"></p>
+<div id="message">
+    <div id="secure-data">
+        <form>
+            <input type="text" id="ingredientBatchId" placeholder="Enter an ingredientBatch id" required>
+            <button id="submit-ingredientbatch">Submit</button>
+        </form>
+        <p id="ingredientBatchOutput"><strong>ingredientBatch: </strong><span id="ingredientBatch_json">IngredientBatch not fetched yet.</span></p>
+    </div>
+</div>
+<script src="assets/js/getStuff.js"></script>
+<script>
+    $("#submit-ingredientbatch").click(function (e) {
+        e.preventDefault();
+        getSecureData("/module/ingredientbatch/get/" + $("#ingredientBatchId").val(), function(output) {
+            $("#ingredientBatch_json").html(output);
+        });
+    });
+</script>
+</body>
+</html>

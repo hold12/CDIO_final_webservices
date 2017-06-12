@@ -90,7 +90,6 @@ public class RecipeDAO implements IRecipeDAO {
                 recipe.getRecipeName()
         ));
 
-
         try {
             if (!rs.first()) return -1;
 
