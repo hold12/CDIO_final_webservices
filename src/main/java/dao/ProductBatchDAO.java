@@ -22,7 +22,7 @@ public class ProductBatchDAO implements IProductBatchDAO {
 
         try {
             db.connectToDatabase();
-        } catch(ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new DALException(e);
         }
 
@@ -79,11 +79,30 @@ public class ProductBatchDAO implements IProductBatchDAO {
 
     @Override
     public int createProductBatch(ProductBatch productBatch) throws DALException {
-        return db.update(Queries.getFormatted(
+        int id;
+        try {
+            db.connectToDatabase();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
+        ResultSet rs = db.query(Queries.getFormatted(
                 "productbatch.insert",
                 productBatch.getCreatedTime().toString(),
                 Integer.toString(productBatch.getRecipeId()),
                 Integer.toString(productBatch.getUserId())
         ));
+
+        try {
+            if (!rs.first()) return -1;
+
+            id = rs.getInt("productbatch_id");
+
+            db.close();
+
+            return id;
+        } catch (SQLException e) {
+            throw new DALException(e);
+        }
     }
 }

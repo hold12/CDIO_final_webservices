@@ -1,17 +1,12 @@
 package dao;
 
 import dto.ProductBatch;
-import jdbclib.DBConnector;
-import jdbclib.DatabaseConnection;
-import jdbclib.IConnector;
 import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class IProductBatchDAOTest {
     @Test
@@ -77,22 +72,4 @@ public class IProductBatchDAOTest {
         assertTrue(list.contains(newProductBatch));
     }
 
-    @Test
-    public void productBatchDAO_CRUD_Test() throws Exception {
-        final IConnector db = new DBConnector(new DatabaseConnection());
-        final IProductBatchDAO productBatchDAO = new ProductBatchDAO(db);
-        final ProductBatch productBatch =
-                new ProductBatch(
-                        0,
-                        new Timestamp(System.currentTimeMillis()),
-                        null,
-                        0,
-                        1,
-                        1
-                        );
-
-        // Create
-        final int id = productBatchDAO.createProductBatch(productBatch);
-        assertTrue(productBatch.equals(productBatchDAO.getProductBatch(id))); // Check that the product batch exists
-    }
 }
