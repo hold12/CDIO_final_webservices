@@ -33,7 +33,8 @@ public class TestIngredientDAO implements IIngredientDAO {
     }
 
     @Override
-    public void createIngredient(Ingredient ingredient) throws DALException {
+    public int createIngredient(Ingredient ingredient) throws DALException {
         ingredientList.add(ingredient);
+        return ingredient.getIngredientId();
     }
 }

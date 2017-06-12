@@ -79,12 +79,32 @@ public class IngredientDAO implements IIngredientDAO{
     }
 
     @Override
-    public void createIngredient(Ingredient ingredient) throws DALException {
-        db.update(Queries.getFormatted(
+    public int createIngredient(Ingredient ingredient) throws DALException {
+        int id;
+        try {
+            db.connectToDatabase();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
+        ResultSet rs = db.query(Queries.getFormatted(
                 "ingredient.insert",
                 ingredient.getIngredientName(),
                 ingredient.getSupplier()
         ));
+
+
+        try {
+            if (!rs.first()) return -1;
+
+            id = rs.getInt("ingredient_id");
+
+            db.close();
+
+            return id;
+        } catch (SQLException e) {
+            throw new DALException(e);
+        }
     }
 
 }
