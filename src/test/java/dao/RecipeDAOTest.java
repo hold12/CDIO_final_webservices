@@ -6,9 +6,9 @@ import jdbclib.DatabaseConnection;
 import jdbclib.IConnector;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class RecipeDAOTest {
     @Test
@@ -18,6 +18,16 @@ public class RecipeDAOTest {
         final Recipe actualRecipe = recipeDAO.getRecipe(0);
 
         assertNull(actualRecipe);
+    }
+
+    @Test
+    public void getRecipeList() throws Exception {
+        final IConnector db = new DBConnector(new DatabaseConnection());
+        final IRecipeDAO recipeDAO = new RecipeDAO(db);
+
+        final List<Recipe> recipe = recipeDAO.getRecipeList();
+
+        assertTrue(recipe.size() > 0);
     }
 
     @Test

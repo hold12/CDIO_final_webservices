@@ -30,7 +30,6 @@ public class UserDAO implements IUserDAO {
 
         User returnedUser;
 
-
         try {
             db.connectToDatabase();
         } catch(ClassNotFoundException | SQLException e) {

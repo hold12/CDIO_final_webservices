@@ -38,7 +38,7 @@ public class IIngredientBatchDAOTest {
     }
 
     @Test
-    public void getIngredient1Batches() throws Exception {
+    public void getIngredientBatches() throws Exception {
         final IIngredientBatchDAO ingredientBatchDAO = new TestIngredientBatchDAO();
         final List<IngredientBatch> list = ingredientBatchDAO.getIngredientBatchList(1);
         final IngredientBatch expectedFirstIngredientBatch = new IngredientBatch(1,1,1.1);

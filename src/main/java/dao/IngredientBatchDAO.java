@@ -52,6 +52,12 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
     public List<IngredientBatch> getIngredientBatchList() throws DALException {
         List<IngredientBatch> list = new ArrayList<>();
 
+        try {
+            db.connectToDatabase();
+        } catch(ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
         ResultSet rs = db.query(Queries.getFormatted(
                 "ingredientbatch.select.all"
         ));
@@ -76,6 +82,12 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
     public List<IngredientBatch> getIngredientBatchList(int ingredientId) throws DALException {
         List<IngredientBatch> list = new ArrayList<>();
 
+        try {
+            db.connectToDatabase();
+        } catch(ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
         ResultSet rs = db.query(Queries.getFormatted(
                 "ingredientbatch.select.where.ingredientid",
                 Integer.toString(ingredientId)
@@ -99,7 +111,6 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
 
     @Override
     public int createIngredientBatch(IngredientBatch ingredientBatch) throws DALException {
-        int id;
         try {
             db.connectToDatabase();
         } catch (ClassNotFoundException | SQLException e) {
@@ -115,7 +126,7 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
         try {
             if (!rs.first()) return -1;
 
-            id = rs.getInt("ingredientbatch_id");
+            int id = rs.getInt("ingredientbatch_id");
 
             db.close();
 

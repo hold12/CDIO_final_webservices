@@ -85,7 +85,6 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
 
     @Override
     public List<RecipeComponent> getRecipeComponentList() throws DALException {
-
         List<RecipeComponent> list = new ArrayList<>();
 
         try {
