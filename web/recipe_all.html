@@ -11,7 +11,7 @@
 <h1>All Recipes</h1>
 <p id="recipes"></p>
 
-<script src="assets/js/getStuff.js"></script>
+<script src="assets/js/getSecureData.js"></script>
 <script>
     getSecureData("/module/recipe/get/all", function(output) {
         $("#recipes").html(output);
