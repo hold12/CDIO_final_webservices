@@ -20,9 +20,9 @@ import java.util.List;
 public class IngredientModule {
     @AuthenticationEndpoint.Secured(Permission.INGREDIENT_READ)
     @POST
-    @Path("get/{ingredientId}")
+    @Path(Routes.MODULE_INGREDIENT_GET)
     @Produces(MediaType.APPLICATION_JSON)
-    public Ingredient getIngredient(@PathParam("ingredientId") int id) {
+    public Ingredient getIngredient(@PathParam(Routes.MODULE_INGREDIENT_GET_ID) int id) {
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
             final IIngredientDAO ingredientDAO = new IngredientDAO(db);
