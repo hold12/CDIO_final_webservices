@@ -1,5 +1,7 @@
 package dto;
 
+import config.Permission;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +72,16 @@ public class User {
     }
     public List<Role> getRoles() { return roles; }
     public void setRoles(List<Role> roles) { this.roles = roles; }
+    public boolean hasPermission(Permission permission) {
+    	boolean userHasPermission = false;
+    	for (Role r : this.roles) {
+    		for (String s : r.getPermissions()) {
+				if (s.toLowerCase().equals(permission.toString()))
+    				userHasPermission = true;
+			}
+		}
+		return userHasPermission;
+	}
 
 
 	@Override

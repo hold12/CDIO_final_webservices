@@ -49,7 +49,8 @@ public class IUserDAOTest {
         final List<User> users = userDAO.getUserList();
 
         assertTrue(users.size() > 0);
-        assertEquals(expectedFirstUser, users.get(0));
+        assertEquals(expectedFirstUser.getFirstname(), users.get(0).getFirstname());
+        assertEquals(expectedFirstUser.getPassword(), users.get(0).getPassword());
     }
 
     @Test
