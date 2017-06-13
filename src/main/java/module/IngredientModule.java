@@ -1,5 +1,7 @@
-package modules;
+package module;
 
+import config.Permission;
+import config.Routes;
 import auth.AuthenticationEndpoint;
 import dao.IIngredientDAO;
 import dao.IngredientDAO;
@@ -14,9 +16,9 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
-@Path("ingredient")
+@Path(Routes.MODULE_INGREDIENT)
 public class IngredientModule {
-    @AuthenticationEndpoint.Secured
+    @AuthenticationEndpoint.Secured(Permission.INGREDIENT_READ)
     @POST
     @Path("get/{ingredientId}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -32,9 +34,9 @@ public class IngredientModule {
         }
     }
 
-    @AuthenticationEndpoint.Secured
+    @AuthenticationEndpoint.Secured(Permission.INGREDIENT_READ)
     @POST
-    @Path("get/all")
+    @Path(Routes.MODULE_INGREDIENT_ALL)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Ingredient> getAllIngredients() {
         try {
@@ -48,9 +50,9 @@ public class IngredientModule {
         }
     }
 
-    @AuthenticationEndpoint.Secured
+    @AuthenticationEndpoint.Secured(Permission.INGREDIENT_CREATE)
     @POST
-    @Path("create")
+    @Path(Routes.MODULE_INGREDIENT_CREATE)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Ingredient createIngredient(Ingredient ingredient) {
