@@ -56,6 +56,12 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
     public List<ProductBatchComponent> getProductBatchComponentList(int productbatchId) throws DALException {
         List<ProductBatchComponent> list = new ArrayList<>();
 
+        try {
+            db.connectToDatabase();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
         ResultSet rs = db.query(Queries.getFormatted(
                 "productbatchcomponent.select.where.productbatchid",
                 Integer.toString(productbatchId)
@@ -81,6 +87,12 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
     @Override
     public List<ProductBatchComponent> getProductBatchComponentList() throws DALException {
         List<ProductBatchComponent> list = new ArrayList<>();
+
+        try {
+            db.connectToDatabase();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
 
         ResultSet rs = db.query(Queries.getFormatted(
                 "productbatchcomponent.select.all"

@@ -6,9 +6,9 @@ import jdbclib.DatabaseConnection;
 import jdbclib.IConnector;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class IngredientBatchDAOTest {
     @Test
@@ -18,6 +18,16 @@ public class IngredientBatchDAOTest {
         final IngredientBatch actualIngredientBatch = ingredientBatchDAO.getIngredientBatch(0);
 
         assertNull(actualIngredientBatch);
+    }
+
+    @Test
+    public void getIngredientBatchList() throws Exception {
+        final IConnector db = new DBConnector(new DatabaseConnection());
+        final IIngredientBatchDAO ingredientBatchDAO = new IngredientBatchDAO(db);
+
+        final List<IngredientBatch> ingredientBatches = ingredientBatchDAO.getIngredientBatchList();
+
+        assertTrue(ingredientBatches.size() > 0);
     }
 
     @Test

@@ -54,6 +54,12 @@ public class ProductBatchDAO implements IProductBatchDAO {
     public List<ProductBatch> getProductBatchList() throws DALException {
         List<ProductBatch> list = new ArrayList<>();
 
+        try {
+            db.connectToDatabase();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
         ResultSet rs = db.query(Queries.getFormatted(
                 "productbatch.select.all"
         ));
