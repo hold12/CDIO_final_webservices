@@ -45,7 +45,7 @@ public class UserModule {
         return user;
     }
 
-    @AuthenticationEndpoint.Secured
+    @AuthenticationEndpoint.Secured(Permission.USER_READ)
     @POST
     @Path("get/all")
     @Produces(MediaType.APPLICATION_JSON)

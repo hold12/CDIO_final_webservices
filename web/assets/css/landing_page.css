@@ -1,0 +1,55 @@
+
+body {
+    background: #F9D8D6;
+    /* fallback for old browsers */
+    /* Hård til sart lyserød */
+    background: -webkit-linear-gradient(right, #F9D8D6, #EFAFAC);
+    background: -moz-linear-gradient(right, #F9D8D6, #EFAFAC);
+    background: -o-linear-gradient(right, #F9D8D6, #EFAFAC);
+    background: linear-gradient(to left, #F9D8D6, #EFAFAC);
+    font-family: 'Raleway', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.full-height {
+    height: 90vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.links>a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}

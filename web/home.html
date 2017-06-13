@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.pink-red.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+</head>
+
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">Home</span>
+            <!-- Add spacer to align to the right -->
+            <div class="mdl-layout-spacer"></div>
+            <!-- Add search button (needed???) -->
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+                    <i class="material-icons">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                    <input class="mdl-textfield__input" type="text" name="sample" id="fixed-header-drawer-exp">
+                </div>
+            </div>
+            <!-- end of search button -->
+            <!-- triple dot button -->
+            <button id="manage-profile-btn" class="mdl-button mdl-js-button mdl-button--icon">
+                <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="manage-profile-btn">
+                <li class="mdl-menu__item">Profile</li>
+                <li class="mdl-menu__item">Help</li>
+                <li class="mdl-menu__item" id="log-out-btn">Log Out</li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">Hold 12</span>
+        <nav class="mdl-navigation" id="side-nav-bar">
+
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div id="createbutton">
+            </br>
+            <button type="button" class="btn btn-success">Create</button>
+        </div>
+
+        <div class="table-responsive">
+            </br>
+            <table id="table-column" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+            </table>
+        </div>
+
+    </main>
+</div>
+<script src="assets/js/home.js"></script>
+<script src="assets/js/getSecureData.js"></script>
+<script src="assets/js/sidebar.js"></script>
+<script src="assets/js/view_tables.js"></script>
+</body>
+
+</html>

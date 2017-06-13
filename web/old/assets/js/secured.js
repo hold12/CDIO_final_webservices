@@ -31,7 +31,7 @@ if (!!$.cookie("auth_token")) {
                     console.log("Not authorized");
                     $("#message").html(result.responseText);
                     $("#error").show();
-                    $("#error-message").html("Not authorized. Please <a href='/login.html'>log in here</a>.");
+                    $("#error-message").html("Not authorized. Please <a href='/old/login.html'>log in here</a>.");
                 }
             }
         });
@@ -39,5 +39,5 @@ if (!!$.cookie("auth_token")) {
 }
 else {
     $("#error").show();
-    $("#error-message").html("Not authorized. Please <a href='/login.html'>log in here</a>.");
+    $("#error-message").html("Not authorized. Please <a href='/old/login.html'>log in here</a>.");
 }

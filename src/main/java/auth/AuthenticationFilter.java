@@ -113,7 +113,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private void checkPermissions(List<Permission> allowedPermissions, User user) throws Exception { // TODO: Better exception handling
-        System.out.println(user.hasPermission(allowedPermissions.get(0)));
+        System.out.println("Checking permission: ");
+        System.out.println("permission: " + allowedPermissions.size());
         for (Permission p : allowedPermissions) {
             if (!user.hasPermission(p))
                 throw new Exception("User does not have suffiecient permissions.");
