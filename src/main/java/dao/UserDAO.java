@@ -101,7 +101,7 @@ public class UserDAO implements IUserDAO {
     }
 
     @Override
-    public User getUser(String token) {
+    public User getUser(String token) { // TODO: Refactor UserDAO to UserDAODB and make a UserDAOToken and put this in here
         final Claims claims = Jwts.parser().setSigningKey(Config.AUTH_KEY).parseClaimsJws(token).getBody();
         final ObjectMapper objectMapper = new ObjectMapper();
         User user = objectMapper.convertValue(claims.get("user"), User.class);
