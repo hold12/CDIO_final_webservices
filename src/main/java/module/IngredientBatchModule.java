@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
-@Path(Routes.MODULE_USER)
+@Path(Routes.MODULE_INGREDIENTBATCH)
 public class IngredientBatchModule {
 	@AuthenticationEndpoint.Secured(Permission.INGREDIENTBATCH_READ)
 	@POST
