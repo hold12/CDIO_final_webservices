@@ -6,7 +6,6 @@ package config;
 public class Routes {
     public final static String AUTH_ROOT = "auth";
     public final static String AUTH_AUTHENTICATION = "authentication";
-
     public final static String MODULE_ROOT = "module";
     public final static String MODULE_HOME = "home";
 	public final static String MODULE_HOME_GETLOGGEDUSER = "getLoggedUser";
