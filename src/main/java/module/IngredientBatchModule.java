@@ -1,6 +1,8 @@
-package modules;
+package module;
 
+import config.Routes;
 import auth.AuthenticationEndpoint;
+import config.Permission;
 import dao.IIngredientBatchDAO;
 import dao.IngredientBatchDAO;
 import dto.IngredientBatch;
@@ -14,13 +16,13 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
 
-@Path("ingredientbatch")
+@Path(Routes.MODULE_USER)
 public class IngredientBatchModule {
-	@AuthenticationEndpoint.Secured
+	@AuthenticationEndpoint.Secured(Permission.INGREDIENTBATCH_READ)
 	@POST
-	@Path("get/{ingredientBatchId}")
+	@Path(Routes.MODULE_INGREDIENTBATCH_GET)
 	@Produces(MediaType.APPLICATION_JSON)
-	public IngredientBatch getIngredientBatch(@PathParam("ingredientBatchId") int id) {
+	public IngredientBatch getIngredientBatch(@PathParam(Routes.MODULE_INGREDIENTBATCH_GET_ID) int id) {
 		try {
 			final IConnector db = new DBConnector(new DatabaseConnection());
 			final IIngredientBatchDAO ingredientBatchDAO = new IngredientBatchDAO(db);
@@ -31,9 +33,9 @@ public class IngredientBatchModule {
 			return null;
 		}
 	}
-	@AuthenticationEndpoint.Secured
+	@AuthenticationEndpoint.Secured(Permission.INGREDIENTBATCH_READ)
 	@POST
-	@Path("get/all")
+	@Path(Routes.MODULE_INGREDIENTBATCH_ALL)
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<IngredientBatch> getIngredientBatchList() {
 		try {
@@ -47,9 +49,9 @@ public class IngredientBatchModule {
 		}
 	}
 
-	@AuthenticationEndpoint.Secured
+	@AuthenticationEndpoint.Secured(Permission.INGREDIENTBATCH_CREATE)
 	@POST
-	@Path("create")
+	@Path(Routes.MODULE_INGREDIENTBATCH_CREATE)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public IngredientBatch createIngredient(IngredientBatch ingredientBatch) {
