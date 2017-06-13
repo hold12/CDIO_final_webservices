@@ -26,10 +26,10 @@ import java.util.List;
 public class UserModule {
     @AuthenticationEndpoint.Secured(Permission.USER_READ)
     @POST
-    @Path("get/{userId}")
+    @Path(Routes.MODULE_USER_GETUSER)
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@PathParam("userId") int id) {
-        IConnector db = null;
+    public User getUser(@PathParam(Routes.MODULE_USER_GETUSER_USERID) int id) {
+        IConnector db;
         User user = null;
 
         try {
