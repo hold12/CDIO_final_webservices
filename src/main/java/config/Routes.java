@@ -26,6 +26,10 @@ public class Routes {
 	public final static String MODULE_RECIPE_GET = "get/{" + MODULE_RECIPE_GET_ID + "}";
 	public final static String MODULE_RECIPE_ALL = "get/all";
 	public final static String MODULE_RECIPE_CREATE = "create";
+    public final static String MODULE_RECIPECOMPONENT = "recipecomponent";
+    public final static String MODULE_RECIPECOMPONENT_GET_RECIPEID = "recipeId";
+    public final static String MODULE_RECIPECOMPONENT_ALL = "get/all/{" + MODULE_RECIPECOMPONENT_GET_RECIPEID + "}";
+    public final static String MODULE_RECIPECOMPONENT_CREATE = "create";
 	public final static String MODULE_INGREDIENTBATCH = "ingredientbatch";
 	public final static String MODULE_INGREDIENTBATCH_GET_ID = "ingredientBatchId";
 	public final static String MODULE_INGREDIENTBATCH_GET = "get/{" + MODULE_INGREDIENTBATCH_GET_ID + "}";
