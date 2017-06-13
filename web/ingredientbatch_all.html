@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Listing all ingredient batches</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<body>
+<h1>All Ingredient Batches</h1>
+<p id="ingredientBatches_json"></p>
+
+<script src="assets/js/getSecureData.js"></script>
+<script>
+    getSecureData("/module/ingredientbatch/get/all", function(output) {
+        $("#ingredientBatches_json").html(output);
+    });
+</script>
+</body>
+</html>
