@@ -17,7 +17,7 @@ function getSecureData(wantedUrl, handleData) {
                     // console.log("response: " + test);
                     handleData(result.responseText);
                 } else if (result.status == 401) {
-                    return "not authorized";
+                    handleData("not authorized");
                 }
             }
         });

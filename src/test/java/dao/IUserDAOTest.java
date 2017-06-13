@@ -1,5 +1,6 @@
 package dao;
 
+import dto.Role;
 import dto.User;
 import jdbclib.DBConnector;
 import jdbclib.DatabaseConnection;
@@ -48,6 +49,23 @@ public class IUserDAOTest {
         final List<User> users = userDAO.getUserList();
 
         assertTrue(users.size() > 0);
-        assertEquals(expectedFirstUser, users.get(0));
+        assertEquals(expectedFirstUser.getFirstname(), users.get(0).getFirstname());
+        assertEquals(expectedFirstUser.getPassword(), users.get(0).getPassword());
     }
+
+    @Test
+    public void userGetsRoles() throws Exception {
+        final IConnector db = new DBConnector(new DatabaseConnection());
+        final IUserDAO userDAO = new UserDAO(db);
+
+        final User actualUser = userDAO.getFullUser(3);
+        System.out.println(actualUser);
+        for (Role role : actualUser.getRoles()) {
+            System.out.println("Role: " + role.getRole_name());
+            for (String permission : role.getPermissions()) {
+                System.out.println("   Permission: " + permission);
+            }
+        }
+    }
+
 }
