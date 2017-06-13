@@ -94,6 +94,12 @@ public class AuthenticationEndpointTest extends AuthenticationEndpoint {
         final String token = issueToken(EXPECTED_USER.getUserId());
         final User ACTUAL_USER = userDAO.getUser(token);
 
-        assertEquals(EXPECTED_USER, ACTUAL_USER);
+        assertEquals(EXPECTED_USER.getUserId(), ACTUAL_USER.getUserId());
+        assertEquals(EXPECTED_USER.getFirstname(), ACTUAL_USER.getFirstname());
+        assertTrue(EXPECTED_USER.getLastname() == ACTUAL_USER.getLastname());
+        assertEquals(EXPECTED_USER.getInitials(), ACTUAL_USER.getInitials());
+        assertEquals("[hidden]", ACTUAL_USER.getPassword());
+
+//        assertEquals(EXPECTED_USER, ACTUAL_USER);
     }
 }
