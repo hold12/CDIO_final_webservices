@@ -17,7 +17,8 @@ public class Routes {
 	public final static String MODULE_USER_UPDATE = "update";
 	public final static String MODULE_USER_CREATE = "create";
 	public final static String MODULE_RECIPE = "recipe";
-	public final static String MODULE_RECIPE_GETRECIPE = "get/{recipeId}";
+	public final static String MODULE_RECIPE_GETRECIPE_RECIPEID = "recipeId";
+	public final static String MODULE_RECIPE_GETRECIPE = "get/{" + MODULE_RECIPE_GETRECIPE_RECIPEID + "}";
 	public final static String MODULE_RECIPE_ALL = "get/all";
 	public final static String MODULE_RECIPE_CREATE = "create";
 }

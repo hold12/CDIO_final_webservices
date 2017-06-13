@@ -1,6 +1,7 @@
 package module;
 
 import auth.AuthenticationEndpoint;
+import config.Permission;
 import config.Routes;
 import dao.IRecipeDAO;
 import dao.RecipeDAO;
@@ -17,11 +18,11 @@ import java.util.List;
 
 @Path(Routes.MODULE_RECIPE)
 public class RecipeModule {
-    @AuthenticationEndpoint.Secured
+    @AuthenticationEndpoint.Secured(Permission.RECIPE_READ)
     @POST
     @Path(Routes.MODULE_RECIPE_GETRECIPE)
     @Produces(MediaType.APPLICATION_JSON)
-    public Recipe getRecipe(@PathParam(Routes.MODULE_RECIPE_GETRECIPE) int id) {
+    public Recipe getRecipe(@PathParam(Routes.MODULE_RECIPE_GETRECIPE_RECIPEID) int id) {
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
             final IRecipeDAO recipeDAO = new RecipeDAO(db);
@@ -33,7 +34,7 @@ public class RecipeModule {
         }
     }
 
-    @AuthenticationEndpoint.Secured
+    @AuthenticationEndpoint.Secured(Permission.RECIPE_READ)
     @POST
     @Path(Routes.MODULE_RECIPE_ALL)
     @Produces(MediaType.APPLICATION_JSON)
@@ -49,7 +50,7 @@ public class RecipeModule {
         }
     }
 
-    @AuthenticationEndpoint.Secured
+    @AuthenticationEndpoint.Secured(Permission.RECIPE_CREATE)
     @POST
     @Path(Routes.MODULE_RECIPE_CREATE)
     @Consumes(MediaType.APPLICATION_JSON)
