@@ -63,7 +63,8 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
         }
 
         ResultSet rs = db.query(
-                Queries.getSQL("recipecomponent.select.where.recipeid")
+                Queries.getFormatted("recipecomponent.select.where.recipeid",
+                        Integer.toString(recipeId))
         );
 
         try {
