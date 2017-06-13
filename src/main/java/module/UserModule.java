@@ -1,5 +1,6 @@
-package modules;
+package module;
 
+import config.Routes;
 import auth.AuthenticationEndpoint;
 import config.Permission;
 import dao.IUserDAO;
@@ -11,25 +12,23 @@ import jdbclib.DatabaseConnection;
 import jdbclib.IConnector;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
  * Created by AndersWOlsen on 10-06-2017.
  */
-@Path("user")
+@Path(Routes.MODULE_USER)
 public class UserModule {
     @AuthenticationEndpoint.Secured(Permission.USER_READ)
     @POST
-    @Path("get/{userId}")
+    @Path(Routes.MODULE_USER_GETUSER)
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@PathParam("userId") int id) {
+    public User getUser(@PathParam(Routes.MODULE_USER_GETUSER) int id) {
         IConnector db = null;
         User user = null;
 
@@ -45,9 +44,9 @@ public class UserModule {
         return user;
     }
 
-    @AuthenticationEndpoint.Secured(Permission.USER_READ)
+	@AuthenticationEndpoint.Secured(Permission.USER_READ)
     @POST
-    @Path("get/all")
+    @Path(Routes.MODULE_USER_ALL)
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllUsers() {
         try {
@@ -61,9 +60,9 @@ public class UserModule {
         throw new NotImplementedException();
     }
 
-    @AuthenticationEndpoint.Secured
+	@AuthenticationEndpoint.Secured(Permission.USER_UPDATE)
     @POST
-    @Path("update")
+    @Path(Routes.MODULE_USER_UPDATE)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public void updateUser(User user) {
@@ -77,9 +76,9 @@ public class UserModule {
         }
     }
 
-    @AuthenticationEndpoint.Secured
+	@AuthenticationEndpoint.Secured(Permission.USER_CREATE)
     @POST
-    @Path("create")
+    @Path(Routes.MODULE_USER_CREATE)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public User createUser(User user) {
