@@ -31,4 +31,9 @@ public class Routes {
 	public final static String MODULE_INGREDIENTBATCH_GET = "get/{" + MODULE_INGREDIENTBATCH_GET_ID + "}";
 	public final static String MODULE_INGREDIENTBATCH_ALL = "get/all";
 	public final static String MODULE_INGREDIENTBATCH_CREATE = "create";
+	public final static String MODULE_PRODUCTBATCH = "productbatch";
+	public final static String MODULE_PRODUCTBATCH_GET_ID = "productbatchId";
+	public final static String MODULE_PRODUCTBATCH_GET = "get/{" + MODULE_PRODUCTBATCH_GET_ID + "}";
+	public final static String MODULE_PRODUCTBATCH_ALL = "get/all";
+	public final static String MODULE_PRODUCTBATCH_CREATE = "create";
 }
