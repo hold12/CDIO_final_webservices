@@ -20,9 +20,9 @@ import java.util.List;
 public class RecipeModule {
     @AuthenticationEndpoint.Secured(Permission.RECIPE_READ)
     @POST
-    @Path(Routes.MODULE_RECIPE_GETRECIPE)
+    @Path(Routes.MODULE_RECIPE_GET)
     @Produces(MediaType.APPLICATION_JSON)
-    public Recipe getRecipe(@PathParam(Routes.MODULE_RECIPE_GETRECIPE_RECIPEID) int id) {
+    public Recipe getRecipe(@PathParam(Routes.MODULE_RECIPE_GET_ID) int id) {
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
             final IRecipeDAO recipeDAO = new RecipeDAO(db);
