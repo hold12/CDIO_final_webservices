@@ -3,15 +3,8 @@ package auth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Config;
 import config.Permission;
-import dao.IUserDAO;
-import dao.UserDAO;
 import dto.User;
 import io.jsonwebtoken.*;
-import jdbclib.DALException;
-import jdbclib.DBConnector;
-import jdbclib.DatabaseConnection;
-import jdbclib.IConnector;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
@@ -22,12 +15,10 @@ import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,40 +39,36 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
 
         // ======== GET HTTP HEADER ========
-        // Get HTTP Authorization header from the request
+        // Get auth header from the request
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-        // Check if the HTTP authorization header is present and formatted correctly
+        // Check if the auth header exists and is correctly formatted
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             System.err.println("Not authorized!");
             throw new NotAuthorizedException("Authorization header must be provided");
         }
 
         // ======== EXTRACT USER FROM TOKEN ========
-        // Extract the token from the HTTP Authorization header
+        // Extract the token
         String token = authorizationHeader.substring("Bearer".length()).trim();
 
+        // Extract the user object from the token
         Claims claims = Jwts.parser().setSigningKey(Config.AUTH_KEY).parseClaimsJws(token).getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         User user = objectMapper.convertValue(claims.get("user"), User.class);
 
         // ======== USER PERMISSIONS ========
-        // Get the resource class which matches with the requested URL
-        // Extract the roles daclared by it
+        // Extract the permissions declared the resource class matching the requested URL
         Class<?> resourceClass = resourceInfo.getResourceClass();
         List<Permission> classPermissions = extractPermissions(resourceClass);
-
-        // Get the resource method which matches with the requested URL
-        // Extract the roles declared by it
         Method resourceMethod = resourceInfo.getResourceMethod();
         List<Permission> methodPermissions = extractPermissions(resourceMethod);
 
         try {
             // Check if the user is allowed to execute the method
-            // The method annotations override the class annotations
             if (methodPermissions.isEmpty()) {
                 checkPermissions(classPermissions, user);
             } else {
-                checkPermissions(methodPermissions, user);
+                checkPermissions(methodPermissions, user); // method annotations override class annotations
             }
         } catch (Exception e) { // TODO: Better exception handling
             requestContext.abortWith(
@@ -100,11 +87,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     private List<Permission> extractPermissions(AnnotatedElement annotatedElement) {
         if (annotatedElement == null) {
-            return new ArrayList<Permission>();
+            return new ArrayList<>();
         } else {
             AuthenticationEndpoint.Secured secured = annotatedElement.getAnnotation(AuthenticationEndpoint.Secured.class);
             if (secured == null)
-                return new ArrayList<Permission>();
+                return new ArrayList<>();
             else {
                 Permission[] allowedPermissions = secured.value();
                 return Arrays.asList(allowedPermissions);

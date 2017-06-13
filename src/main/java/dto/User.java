@@ -75,7 +75,7 @@ public class User {
     public boolean hasPermission(Permission permission) {
     	boolean userHasPermission = false;
     	for (Role r : this.roles) {
-    		for (String s : r.getPermissions()) {
+    		for (String s : r.getPermissions()) { // TODO use map instead - performance
 				if (s.toLowerCase().equals(permission.toString()))
     				userHasPermission = true;
 			}
