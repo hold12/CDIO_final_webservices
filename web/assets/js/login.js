@@ -38,7 +38,7 @@ $("#login-btn").click(function(e) {
 
         error: function(result) {
             console.log("Status Code: " + result.status + ". Error, reponse: " + result.responseText);
-        },
+        }
     });
     // session.isAuthenticated(true);
 });

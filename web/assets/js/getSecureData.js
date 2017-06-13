@@ -1,7 +1,4 @@
-/**
- * Created by AndersWOlsen on 11-06-2017.
- */
-function getSecureData(wantedUrl, handleData) {
+function getSecureData(wantedUrl, handleData, form) {
     if (!!$.cookie("auth_token")) {
         var authHeader = "Bearer " + $.cookie("auth_token");
         // console.log("Auth Header = " + authHeader);
@@ -11,6 +8,7 @@ function getSecureData(wantedUrl, handleData) {
             method: 'POST',
             contentType: 'application/json; charset=UTF-8',
             headers : {'Authorization': authHeader},
+            data: form,
             complete: function(result) {
                 if (result.status == 200) {
                     // var test = result.responseText;
@@ -26,4 +24,3 @@ function getSecureData(wantedUrl, handleData) {
         return "not authorized";
     }
 }
-

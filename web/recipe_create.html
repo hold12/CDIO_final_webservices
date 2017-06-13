@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get a recipe</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<body>
+<h1>Get a Recipe</h1>
+<p id="recipe"></p>
+
+<div id="message">
+    <div id="secure-data">
+        <form>
+            <input type="text" id="recipeId" placeholder="Enter a recipe id" required>
+            <button id="submit-recipe">Submit</button>
+        </form>
+        <p id="recipeOutput"><strong>recipe: </strong><span id="recipe_json">Recipe not fetched yet.</span></p>
+    </div>
+</div>
+<div class="recipe-page">
+    <div class="form">
+        <form class="recipe-form" method="post" enctype="application/json" id="recipe-form">
+            <input type="text" placeholder="Enter User ID" name="userId" value="1"/>
+            <input type="password" placeholder="Enter Password" name="password" value="root" />
+            <button id="submit-form">login</button>
+        </form>
+    </div>
+</div>
+<script>
+    $("#submit-recipe").click(function (e) {
+        e.preventDefault();
+        postSecureData("/module/recipe/get/" + $("#recipeId").val(), function(output) {
+            $("#recipe_json").html(output);
+        });
+    });
+</script>
+<script>
+    $("#submit-form").click(function (e) {
+        e.preventDefault();
+        var form = $("#login-form").serializeJSON();
+        getSecureData("/module/recipe/create", function(output) {
+            $("#recipe_json").html(output);
+        }, form);
+    });
+</script>
+<script src="assets/js/getSecureData.js"></script>
+</body>
+</html>
