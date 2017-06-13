@@ -20,7 +20,7 @@
     <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
             <!-- Title -->
-            <span class="mdl-layout-title">Home</span>
+            <span class="mdl-layout-title">Home - <span id="user-firstname"></span></span>
             <!-- Add spacer to align to the right -->
             <div class="mdl-layout-spacer"></div>
             <!-- Add search button (needed???) -->
@@ -56,12 +56,17 @@
             </br>
             <button type="button" class="btn btn-success">Create</button>
         </div>
-
-        <div class="table-responsive">
-            </br>
-            <table id="table-column" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
-            </table>
+        <div class="mdl-grid center-items">
+            <div class="mdl-cell mdl-cel--col-12">
+                <div class="table-responsive">
+                    </br>
+                    <table id="table-column" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                    </table>
+                </div>
+            </div>
         </div>
+
+
 
     </main>
 </div>
@@ -69,6 +74,13 @@
 <script src="assets/js/getSecureData.js"></script>
 <script src="assets/js/sidebar.js"></script>
 <script src="assets/js/view_tables.js"></script>
+
+<script>
+    getSecureData("/module/home/getLoggedUser", function(outUser) {
+       var userJSON = JSON.parse(outUser);
+       $("#user-firstname").html(userJSON.firstname);
+    });
+</script>
 </body>
 
 </html>
