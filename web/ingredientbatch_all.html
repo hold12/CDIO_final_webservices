@@ -11,7 +11,7 @@
 <h1>All Ingredient Batches</h1>
 <p id="ingredientBatches_json"></p>
 
-<script src="assets/js/getStuff.js"></script>
+<script src="assets/js/getSecureData.js"></script>
 <script>
     getSecureData("/module/ingredientbatch/get/all", function(output) {
         $("#ingredientBatches_json").html(output);
