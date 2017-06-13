@@ -28,8 +28,8 @@ public class UserModule {
     @POST
     @Path(Routes.MODULE_USER_GETUSER)
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@PathParam(Routes.MODULE_USER_GETUSER) int id) {
-        IConnector db = null;
+    public User getUser(@PathParam(Routes.MODULE_USER_GETUSER_USERID) int id) {
+        IConnector db;
         User user = null;
 
         try {
