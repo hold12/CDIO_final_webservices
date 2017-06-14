@@ -15,6 +15,10 @@ import java.util.List;
 public class RoleDAO implements IRoleDAO {
     private IConnector db;
 
+    public RoleDAO(IConnector db) {
+        this.db = db;
+    }
+
     @Override
     public List<Role> getRoleList() throws DALException {
         List<Role> rolesList = new ArrayList<Role>();
