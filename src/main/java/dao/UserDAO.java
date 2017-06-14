@@ -113,7 +113,7 @@ public class UserDAO implements IUserDAO {
         if (this.db == null)
             throw new DALException("No database specified.");
 
-        List<User> list = new ArrayList<User>();
+        List<User> usersList = new ArrayList<User>();
 
         try {
             db.connectToDatabase();
@@ -121,13 +121,13 @@ public class UserDAO implements IUserDAO {
             throw new DALException(e);
         }
 
-        ResultSet rs = db.query(
+        ResultSet rsUser = db.query(
                 Queries.getSQL("user.select.all")
         );
 
         try {
-            while (rs.next()) {
-                ResultSet rsRoles = db.query(Queries.getFormatted("user.select.roles", Integer.toString(rs.getInt("user_id"))));
+            while (rsUser.next()) { // TODO: Use the RoleDAO here instead of the following crap
+                ResultSet rsRoles = db.query(Queries.getFormatted("user.select.roles", Integer.toString(rsUser.getInt("user_id"))));
                 List<Role> userRoles = new ArrayList<>();
                 while(rsRoles.next()) {
                     userRoles.add(new Role(
@@ -136,13 +136,13 @@ public class UserDAO implements IUserDAO {
                     ));
                 }
 
-                list.add(new User(
-                        rs.getInt("user_id"),
-                        rs.getString("firstname"),
-                        rs.getString("lastname"),
-                        rs.getString("initials"),
-                        rs.getString("password"),
-                        rs.getBoolean("is_active"),
+                usersList.add(new User(
+                        rsUser.getInt("user_id"),
+                        rsUser.getString("firstname"),
+                        rsUser.getString("lastname"),
+                        rsUser.getString("initials"),
+                        rsUser.getString("password"),
+                        rsUser.getBoolean("is_active"),
                         userRoles
                 ));
             }
@@ -150,7 +150,7 @@ public class UserDAO implements IUserDAO {
         } catch (SQLException e) {
             throw new DALException(e);
         }
-        return list;
+        return usersList;
     }
 
     @Override

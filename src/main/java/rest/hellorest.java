@@ -7,17 +7,22 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * Created by awo on 08/06/17.
  */
 @Path("hello")
 public class hellorest {
-    @GET
+    @POST
     @Path("insecure")
     @Produces(MediaType.APPLICATION_JSON)
-    public String insecureData() {
-        return "Hello World from rest!";
+    public Response insecureData() {
+        return Response
+                .status(200)
+                .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                .header("Access-Control-Request-Method", "*")
+                .build();
     }
 
     @AuthenticationEndpoint.Secured
