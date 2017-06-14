@@ -31,8 +31,11 @@ public class RoleModule {
         System.out.println("Getting roles....");
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
+            System.out.println("CONNECTED");
             RoleDAO roleDAO = new RoleDAO(db);
+            System.out.println("DAO Created");
             List<Role> roles = roleDAO.getRoleList();
+            System.out.println("LIST FETCHED");
             System.out.print("Roles Count: ");
             System.out.println(roles.size());
             return roles;

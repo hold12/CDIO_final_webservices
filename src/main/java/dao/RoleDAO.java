@@ -36,8 +36,8 @@ public class RoleDAO implements IRoleDAO {
         try {
             while (rsRoles.next())
                 rolesList.add(new Role(
-                        rsRoles.getString("role_name"),
-                        rsRoles.getString("permission_names").split(",")
+                        rsRoles.getString("role_name")
+                     // TODO: Maybe make a view that returns all roles and permissions?
                 ));
 
             db.close();
