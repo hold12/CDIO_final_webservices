@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientBatchDAO implements IIngredientBatchDAO {
-    private IConnector db;
+    private final IConnector db;
 
     public IngredientBatchDAO(IConnector db) {
         this.db = db;
@@ -22,7 +22,7 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
 
         try {
             db.connectToDatabase();
-        } catch(ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new DALException(e);
         }
 
@@ -40,11 +40,11 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
                     rs.getDouble("amount")
             );
 
-            db.close();
-
             return returnedIngredientBatch;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -54,7 +54,7 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
 
         try {
             db.connectToDatabase();
-        } catch(ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new DALException(e);
         }
 
@@ -70,9 +70,10 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
                         rs.getDouble("amount")
                 ));
             }
-            db.close();
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
         return list;
@@ -84,7 +85,7 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
 
         try {
             db.connectToDatabase();
-        } catch(ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             throw new DALException(e);
         }
 
@@ -101,9 +102,10 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
                         rs.getDouble("amount")
                 ));
             }
-            db.close();
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
         return list;
@@ -125,14 +127,11 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
 
         try {
             if (!rs.first()) return -1;
-
-            int id = rs.getInt("ingredientbatch_id");
-
-            db.close();
-
-            return id;
+            else return rs.getInt("ingredientbatch_id");
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 }

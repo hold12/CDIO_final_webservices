@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IngredientDAO implements IIngredientDAO{
-    private IConnector db;
+    private final IConnector db;
 
     public IngredientDAO(IConnector db) {
         this.db = db;
@@ -18,8 +18,6 @@ public class IngredientDAO implements IIngredientDAO{
 
     @Override
     public Ingredient getIngredient(int ingredientId) throws DALException {
-        Ingredient returnedIngredient;
-
         try {
             db.connectToDatabase();
         } catch(ClassNotFoundException | SQLException e) {
@@ -33,18 +31,15 @@ public class IngredientDAO implements IIngredientDAO{
 
         try {
             if (!rs.first()) return null;
-
-            returnedIngredient = new Ingredient(
+            else return new Ingredient(
                     rs.getInt("ingredient_id"),
                     rs.getString("ingredient_name"),
                     rs.getString("supplier")
             );
-
-            db.close();
-
-            return returnedIngredient;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -70,17 +65,25 @@ public class IngredientDAO implements IIngredientDAO{
                         rs.getString("supplier"))
                 );
             }
-            db.close();
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
         return list;
     }
 
     @Override
-    public int createIngredient(Ingredient ingredient) throws DALException {
-        int id;
+    public int createIngredient(Ingredient ingredient) throws DALException, DataValidationException {
+        int ingredientNameLength = ingredient.getIngredientName().length();
+        if(ingredientNameLength < 2 || ingredientNameLength > 20)
+            throw new DataValidationException("Length of ingredient name should be between 2 and 20 characters.");
+
+        int supplierLength = ingredient.getSupplier().length();
+        if(supplierLength < 2 || supplierLength > 20)
+            throw new DataValidationException("Length of supplier should be between 2 and 20 characters.");
+
         try {
             db.connectToDatabase();
         } catch (ClassNotFoundException | SQLException e) {
@@ -93,18 +96,15 @@ public class IngredientDAO implements IIngredientDAO{
                 ingredient.getSupplier()
         ));
 
-
         try {
             if (!rs.first()) return -1;
-
-            id = rs.getInt("ingredient_id");
-
-            db.close();
-
-            return id;
+            else return rs.getInt("ingredient_id");
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
+
     }
 
 }

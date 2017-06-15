@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductBatchDAO implements IProductBatchDAO {
-    private IConnector db;
+    private final IConnector db;
 
     public ProductBatchDAO(IConnector db) {
         this.db = db;
@@ -18,8 +18,6 @@ public class ProductBatchDAO implements IProductBatchDAO {
 
     @Override
     public ProductBatch getProductBatch(int productBatchId) throws DALException {
-        ProductBatch returnedProductBatch;
-
         try {
             db.connectToDatabase();
         } catch (ClassNotFoundException | SQLException e) {
@@ -32,8 +30,7 @@ public class ProductBatchDAO implements IProductBatchDAO {
 
         try {
             if (!rs.first()) return null;
-
-            returnedProductBatch = new ProductBatch(
+            else return new ProductBatch(
                     rs.getInt("productbatch_id"),
                     rs.getTimestamp("created_time"),
                     rs.getTimestamp("finished_time"),
@@ -41,8 +38,6 @@ public class ProductBatchDAO implements IProductBatchDAO {
                     rs.getInt("recipe_id"),
                     rs.getInt("user_id")
             );
-
-            return returnedProductBatch;
         } catch (SQLException e) {
             throw new DALException(e);
         } finally {
@@ -75,18 +70,17 @@ public class ProductBatchDAO implements IProductBatchDAO {
                         rs.getInt("user_id")
                 ));
             }
-            return list;
         } catch (SQLException e) {
             throw new DALException(e);
         } finally {
             db.close();
         }
 
+        return list;
     }
 
     @Override
     public int createProductBatch(ProductBatch productBatch) throws DALException {
-        int id;
         try {
             db.connectToDatabase();
         } catch (ClassNotFoundException | SQLException e) {
@@ -102,10 +96,7 @@ public class ProductBatchDAO implements IProductBatchDAO {
 
         try {
             if (!rs.first()) return -1;
-
-            id = rs.getInt("productbatch_id");
-
-            return id;
+            else return rs.getInt("productbatch_id");
         } catch (SQLException e) {
             throw new DALException(e);
         } finally {
