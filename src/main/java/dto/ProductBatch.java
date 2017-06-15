@@ -10,6 +10,8 @@ public class ProductBatch {
     private int recipeId;
     private int userId;
 
+    public ProductBatch() {}
+
     public ProductBatch(int productbatchId, Timestamp createdTime, Timestamp finishedTime, int status, int recipeId, int userId) {
         this.productbatchId = productbatchId;
         this.createdTime = createdTime;

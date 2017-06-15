@@ -5,6 +5,8 @@ public class Ingredient {
     private String ingredientName;
     private String supplier;
 
+    public Ingredient() {}
+
     public Ingredient(int ingredientId, String ingredientName, String supplier) {
         this.ingredientId = ingredientId;
         this.ingredientName = ingredientName;
