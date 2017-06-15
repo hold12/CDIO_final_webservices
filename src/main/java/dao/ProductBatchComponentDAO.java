@@ -12,10 +12,6 @@ import java.util.List;
 public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
     private IConnector db;
 
-    public ProductBatchComponentDAO(IConnector db) {
-        this.db = db;
-    }
-
     @Override
     public ProductBatchComponent getProductBatchComponent(int productbatchId, int ingredientbatchId) throws DALException {
         ProductBatchComponent returnedProductBatchComponent;
@@ -44,11 +40,11 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
                 );
             }
 
-            db.close();
-
             return returnedProductBatchComponent;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -76,9 +72,10 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
                         rs.getDouble("net_weight")
                 ));
             }
-            db.close();
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
         return list;
@@ -107,11 +104,13 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
                         rs.getDouble("net_weight")
                 ));
             }
-            db.close();
+            return list;
+
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
-        return list;
     }
 }

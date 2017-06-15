@@ -44,11 +44,11 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
                 );
             }
 
-            db.close();
-
             return recipeComponent;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -76,12 +76,12 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
                         rs.getDouble("tolerance"))
                 );
             }
-            db.close();
+            return list;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
-
-        return list;
     }
 
     @Override
@@ -107,12 +107,12 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
                         rs.getDouble("tolerance"))
                 );
             }
-            db.close();
+            return list;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
-
-        return list;
     }
 
     @Override

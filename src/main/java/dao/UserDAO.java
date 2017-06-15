@@ -53,11 +53,11 @@ public class UserDAO implements IUserDAO {
                     rs.getBoolean("is_active")
                 );
 
-            db.close();
-
             return returnedUser;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -97,6 +97,8 @@ public class UserDAO implements IUserDAO {
             return dbUser;
         } catch (ClassNotFoundException | SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -146,9 +148,10 @@ public class UserDAO implements IUserDAO {
                         userRoles
                 ));
             }
-            db.close();
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
         return usersList;
     }
@@ -164,17 +167,21 @@ public class UserDAO implements IUserDAO {
             throw new DALException(e);
         }
 
-        db.update(Queries.getFormatted(
-           "user.update",
-                Integer.toString(user.getUserId()),
-                user.getFirstname(),
-                user.getLastname(),
-                user.getInitials(),
-                user.getPassword(),
-                Boolean.toString(user.isActive())
-        ));
-
-        db.close();
+        try {
+            db.update(Queries.getFormatted(
+               "user.update",
+                    Integer.toString(user.getUserId()),
+                    user.getFirstname(),
+                    user.getLastname(),
+                    user.getInitials(),
+                    user.getPassword(),
+                    Boolean.toString(user.isActive())
+            ));
+        } catch (DALException e) {
+            throw new DALException(e);
+        } finally {
+            db.close();
+        }
     }
 
     @Override
@@ -197,14 +204,16 @@ public class UserDAO implements IUserDAO {
                 user.getPassword()
         ));
 
-        int userId = 0;
+        int userId;
 
         try {
             rsUserId.first();
             userId = rsUserId.getInt(0);
+            return userId;
         } catch (SQLException e) {
-            System.out.println("Failed to retrieve created user id.");
+            throw new DALException("´Failed to create user: " + e);
+        } finally {
+            db.close();
         }
-        return userId;
     }
 }
