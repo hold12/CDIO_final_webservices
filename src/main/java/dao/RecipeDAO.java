@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeDAO implements IRecipeDAO {
-    private IConnector db;
+    private final IConnector db;
 
     public RecipeDAO(IConnector db) {
         this.db = db;
@@ -18,8 +18,6 @@ public class RecipeDAO implements IRecipeDAO {
 
     @Override
     public Recipe getRecipe(int recipeId) throws DALException {
-        Recipe returnedRecipe;
-
         try {
             db.connectToDatabase();
         } catch(ClassNotFoundException | SQLException e) {
@@ -33,17 +31,14 @@ public class RecipeDAO implements IRecipeDAO {
 
         try {
             if (!rs.first()) return null;
-
-            returnedRecipe = new Recipe(
+            else return new Recipe(
                     rs.getInt("recipe_id"),
                     rs.getString("recipe_name")
             );
-
-            db.close();
-
-            return returnedRecipe;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -68,17 +63,21 @@ public class RecipeDAO implements IRecipeDAO {
                         rs.getString("recipe_name"))
                 );
             }
-            db.close();
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
         return list;
     }
 
     @Override
-    public int createRecipe(Recipe recipe) throws DALException {
-        int id;
+    public int createRecipe(Recipe recipe) throws DALException, DataValidationException {
+        int recipeNameLength = recipe.getRecipeName().length();
+        if (recipeNameLength < 2 || recipeNameLength > 20)
+            throw new DataValidationException("Recipe name should be between 2 and 20 characters");
+
         try {
             db.connectToDatabase();
         } catch (ClassNotFoundException | SQLException e) {
@@ -92,14 +91,11 @@ public class RecipeDAO implements IRecipeDAO {
 
         try {
             if (!rs.first()) return -1;
-
-            id = rs.getInt("recipe_id");
-
-            db.close();
-
-            return id;
+            else return rs.getInt("recipe_id");
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 }

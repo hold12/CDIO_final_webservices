@@ -9,5 +9,5 @@ public interface IRecipeComponentDAO {
     RecipeComponent getRecipeComponent(int recipeId, int ingredientId) throws DALException;
     List<RecipeComponent> getRecipeComponentList(int recipeId) throws DALException;
     List<RecipeComponent> getRecipeComponentList() throws DALException;
-    void createRecipeComponent(RecipeComponent recipeComponent) throws DALException;
+    void createRecipeComponent(RecipeComponent recipeComponent) throws DALException, DataValidationException;
 }

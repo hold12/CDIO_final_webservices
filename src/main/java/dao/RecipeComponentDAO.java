@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeComponentDAO implements IRecipeComponentDAO {
-    private IConnector db;
+    private final IConnector db;
 
     public RecipeComponentDAO(IConnector db) {
         this.db = db;
@@ -18,8 +18,6 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
 
     @Override
     public RecipeComponent getRecipeComponent(int recipeId, int ingredientId) throws DALException {
-        RecipeComponent recipeComponent;
-
         try {
             db.connectToDatabase();
         } catch (ClassNotFoundException | SQLException e) {
@@ -33,22 +31,17 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
         ));
 
         try {
-            if (!rs.first()) {
-                recipeComponent = null;
-            } else {
-                recipeComponent = new RecipeComponent(
+            if (!rs.first()) return null;
+            else return new RecipeComponent(
                         rs.getInt("recipe_id"),
                         rs.getInt("ingredient_id"),
                         rs.getDouble("nominated_net_weight"),
                         rs.getDouble("tolerance")
                 );
-            }
-
-            db.close();
-
-            return recipeComponent;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -76,9 +69,10 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
                         rs.getDouble("tolerance"))
                 );
             }
-            db.close();
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
         return list;
@@ -107,22 +101,39 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
                         rs.getDouble("tolerance"))
                 );
             }
-            db.close();
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
         return list;
     }
 
     @Override
-    public void createRecipeComponent(RecipeComponent recipeComponent) throws DALException {
+    public void createRecipeComponent(RecipeComponent recipeComponent) throws DALException, DataValidationException {
+        Double netWeight = recipeComponent.getNominatedNetWeight();
+        if (netWeight < 0.05 || netWeight > 20.0)
+            throw new DataValidationException("Nominated net weight should be between 0,05 and 20,0 kg");
+
+        Double tolerance = recipeComponent.getTolerance();
+        if (tolerance < 0.1 || tolerance > 10.0)
+            throw new DataValidationException("Tolerance should be between 0,1% and 10,0%");
+
+        try {
+            db.connectToDatabase();
+        } catch(ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
         db.update(Queries.getFormatted(
                 "recipecomponent.insert",
                 Integer.toString(recipeComponent.getRecipeId()),
                 Integer.toString(recipeComponent.getIngredientId()),
-                Double.toString(recipeComponent.getNominatedNetWeight()),
-                Double.toString(recipeComponent.getTolerance())
+                Double.toString(netWeight),
+                Double.toString(tolerance)
         ));
+
+        db.close();
     }
 }
