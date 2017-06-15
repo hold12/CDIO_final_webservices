@@ -53,10 +53,10 @@ public class RoleDAO implements IRoleDAO {
                         permissions
                 ));
             }
-
-            db.close();
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
         return rolesList;

@@ -39,11 +39,11 @@ public class RecipeDAO implements IRecipeDAO {
                     rs.getString("recipe_name")
             );
 
-            db.close();
-
             return returnedRecipe;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -68,12 +68,12 @@ public class RecipeDAO implements IRecipeDAO {
                         rs.getString("recipe_name"))
                 );
             }
-            db.close();
+            return list;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
-
-        return list;
     }
 
     @Override
@@ -95,11 +95,11 @@ public class RecipeDAO implements IRecipeDAO {
 
             id = rs.getInt("recipe_id");
 
-            db.close();
-
             return id;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 }
