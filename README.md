@@ -4,4 +4,4 @@
 [![codecov](https://codecov.io/gh/hold12/CDIO_final_webservices/branch/develop/graph/badge.svg)](https://codecov.io/gh/hold12/CDIO_final_webservices)
 [![release](https://img.shields.io/github/release/hold12/CDIO_final_webservices.svg)](https://github.com/hold12/CDIO_final_webservices/releases)
 
-This is a project using Maven, REST and Jersey. Eventually, a React.js frontend will be implemented as well.
+This is a backend project using Maven, REST and Jersey. Eventually, a React.js frontend will be implemented as well.
