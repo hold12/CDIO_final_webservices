@@ -12,6 +12,10 @@ import java.util.List;
 public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
     private IConnector db;
 
+    public ProductBatchComponentDAO(IConnector db) {
+        this.db = db;
+    }
+
     @Override
     public ProductBatchComponent getProductBatchComponent(int productbatchId, int ingredientbatchId) throws DALException {
         ProductBatchComponent returnedProductBatchComponent;
