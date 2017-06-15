@@ -1,8 +1,9 @@
 package module;
 
-import config.Routes;
 import auth.AuthenticationEndpoint;
 import config.Permission;
+import config.Routes;
+import dao.DataValidationException;
 import dao.IUserDAO;
 import dao.UserDAO;
 import dto.User;
@@ -65,7 +66,7 @@ public class UserModule {
     @Path(Routes.MODULE_USER_UPDATE)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void updateUser(User user) {
+    public void updateUser(User user) throws DataValidationException {
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
             final IUserDAO userDAO = new UserDAO(db);
@@ -81,7 +82,7 @@ public class UserModule {
     @Path(Routes.MODULE_USER_CREATE)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public User createUser(User user) {
+    public User createUser(User user) throws DataValidationException {
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
             final IUserDAO userDAO = new UserDAO(db);

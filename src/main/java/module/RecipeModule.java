@@ -3,6 +3,7 @@ package module;
 import auth.AuthenticationEndpoint;
 import config.Permission;
 import config.Routes;
+import dao.DataValidationException;
 import dao.IRecipeDAO;
 import dao.RecipeDAO;
 import dto.Recipe;
@@ -55,7 +56,7 @@ public class RecipeModule {
     @Path(Routes.MODULE_RECIPE_CREATE)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Recipe createRecipe(Recipe recipe) {
+    public Recipe createRecipe(Recipe recipe) throws DataValidationException {
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
             final IRecipeDAO recipeDAO = new RecipeDAO(db);
