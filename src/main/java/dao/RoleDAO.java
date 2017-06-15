@@ -30,19 +30,33 @@ public class RoleDAO implements IRoleDAO {
         }
 
         ResultSet rsRoles = db.query(
-                "SELECT * FROM role;" //TODO: use queries instead
+                Queries.getSQL("role.get.all")
         );
 
         try {
-            while (rsRoles.next())
+            String role;
+            while (rsRoles.next()) {
+                role = rsRoles.getString("role_name");
+                List<String> permissions = new ArrayList<>();
+
+                ResultSet rsPermissions = db.query(
+                        Queries.getFormatted("role.get.where.role", role));
+
+                while (rsPermissions.next()) {
+                    String perm = rsPermissions.getString("permission_name");
+                    System.out.println(role + " : " + perm);
+                    permissions.add(perm);
+                }
+
                 rolesList.add(new Role(
                         rsRoles.getString("role_name"),
-                        rsRoles.getString("permission_names").split(",")
+                        permissions
                 ));
-
-            db.close();
+            }
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
         return rolesList;

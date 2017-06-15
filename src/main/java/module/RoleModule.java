@@ -10,6 +10,7 @@ import jdbclib.DBConnector;
 import jdbclib.DatabaseConnection;
 import jdbclib.IConnector;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -27,12 +28,26 @@ public class RoleModule {
     @Path(Routes.MODULE_ROLE_GET_ALL)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Role> getAllRoles() {
+        System.out.println("Getting roles....");
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
+            System.out.println("CONNECTED");
             RoleDAO roleDAO = new RoleDAO(db);
-            return roleDAO.getRoleList();
+            System.out.println("DAO Created");
+            List<Role> roles = roleDAO.getRoleList();
+            System.out.println("LIST FETCHED");
+            System.out.print("Roles Count: ");
+            System.out.println(roles.size());
+            return roles;
         } catch (DALException | IOException e) {
+            System.err.println("RoleModule: " + e.getMessage());
             return null;
         }
+    }
+
+    @GET
+    @Path("test")
+    public String test() {
+        return "Roles are working!!!! not..";
     }
 }

@@ -42,11 +42,11 @@ public class ProductBatchDAO implements IProductBatchDAO {
                     rs.getInt("user_id")
             );
 
-            db.close();
-
             return returnedProductBatch;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -75,12 +75,13 @@ public class ProductBatchDAO implements IProductBatchDAO {
                         rs.getInt("user_id")
                 ));
             }
-            db.close();
+            return list;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
-        return list;
     }
 
     @Override
@@ -104,11 +105,11 @@ public class ProductBatchDAO implements IProductBatchDAO {
 
             id = rs.getInt("productbatch_id");
 
-            db.close();
-
             return id;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 }

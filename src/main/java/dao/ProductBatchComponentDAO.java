@@ -44,11 +44,11 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
                 );
             }
 
-            db.close();
-
             return returnedProductBatchComponent;
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
     }
 
@@ -76,9 +76,10 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
                         rs.getDouble("net_weight")
                 ));
             }
-            db.close();
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
         return list;
@@ -107,11 +108,13 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
                         rs.getDouble("net_weight")
                 ));
             }
-            db.close();
+            return list;
+
         } catch (SQLException e) {
             throw new DALException(e);
+        } finally {
+            db.close();
         }
 
-        return list;
     }
 }
