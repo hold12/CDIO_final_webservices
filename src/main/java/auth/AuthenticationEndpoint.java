@@ -31,7 +31,7 @@ public class AuthenticationEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response authenticateUser(Credentials credentials) {
         try {
-            // Authenticate the user using the credentials provided
+            // Authenticate the' user using the credentials provided
 //            System.out.println("Authenticating");
             authenticate(credentials);
 

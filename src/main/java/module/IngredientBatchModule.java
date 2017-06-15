@@ -13,6 +13,7 @@ import jdbclib.IConnector;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
 
@@ -54,18 +55,19 @@ public class IngredientBatchModule {
 	@Path(Routes.MODULE_INGREDIENTBATCH_CREATE)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public IngredientBatch createIngredient(IngredientBatch ingredientBatch) {
+	public Response createIngredient(IngredientBatch ingredientBatch) {
+		System.err.println("I got this: " + ingredientBatch.toString());
 		try {
 			final IConnector db = new DBConnector(new DatabaseConnection());
 			final IIngredientBatchDAO ingredientBatchDAO = new IngredientBatchDAO(db);
 			final int ingredientBatchId = ingredientBatchDAO.createIngredientBatch(ingredientBatch);
 
 			ingredientBatch.setIngredientBatchId(ingredientBatchId);
-
-			return ingredientBatch;
+//			return ingredientBatch;
+			return Response.status(Response.Status.OK).build();
 		} catch (IOException | DALException e) {
 			System.err.println(e.getMessage()); // TODO: Throw a better exception and catch frontend
-			return null;
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
 		}
 	}
 }

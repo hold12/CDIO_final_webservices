@@ -5,6 +5,8 @@ public class IngredientBatch {
     private int ingredientId;
     private double amount;
 
+    public IngredientBatch() {}
+
     public IngredientBatch(int ingredientBatchId, int ingredientId, double amount) {
         this.ingredientBatchId = ingredientBatchId;
         this.ingredientId = ingredientId;
