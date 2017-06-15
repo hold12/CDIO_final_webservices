@@ -9,11 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by AndersWOlsen on 14-06-2017.
- */
 public class RoleDAO implements IRoleDAO {
-    private IConnector db;
+    private final IConnector db;
 
     public RoleDAO(IConnector db) {
         this.db = db;
@@ -21,7 +18,7 @@ public class RoleDAO implements IRoleDAO {
 
     @Override
     public List<Role> getRoleList() throws DALException {
-        List<Role> rolesList = new ArrayList<Role>();
+        List<Role> rolesList = new ArrayList<>();
 
         try {
             db.connectToDatabase();

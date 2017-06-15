@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
-    private IConnector db;
+    private final IConnector db;
 
     public ProductBatchComponentDAO(IConnector db) {
         this.db = db;
@@ -18,8 +18,6 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
 
     @Override
     public ProductBatchComponent getProductBatchComponent(int productbatchId, int ingredientbatchId) throws DALException {
-        ProductBatchComponent returnedProductBatchComponent;
-
         try {
             db.connectToDatabase();
         } catch (ClassNotFoundException | SQLException e) {
@@ -33,18 +31,13 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
         ));
 
         try {
-            if (!rs.first()) {
-                returnedProductBatchComponent = null;
-            } else {
-                returnedProductBatchComponent = new ProductBatchComponent(
+            if (!rs.first()) return null;
+            else return new ProductBatchComponent(
                         rs.getInt("productbatch_id"),
                         rs.getInt("ingredientbatch_id"),
                         rs.getDouble("tare"),
                         rs.getDouble("net_weight")
                 );
-            }
-
-            return returnedProductBatchComponent;
         } catch (SQLException e) {
             throw new DALException(e);
         } finally {
@@ -108,13 +101,12 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
                         rs.getDouble("net_weight")
                 ));
             }
-            return list;
-
         } catch (SQLException e) {
             throw new DALException(e);
         } finally {
             db.close();
         }
 
+        return list;
     }
 }

@@ -6,13 +6,12 @@ import dto.Role;
 import dto.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import jdbclib.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import jdbclib.DALException;
+import jdbclib.IConnector;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class UserDAO implements IUserDAO {
@@ -28,23 +27,19 @@ public class UserDAO implements IUserDAO {
         if (this.db == null)
             throw new DALException("No database specified.");
 
-        User returnedUser;
-
         try {
             db.connectToDatabase();
         } catch(ClassNotFoundException | SQLException e) {
             throw new DALException(e);
         }
 
-//        ResultSet rs = db.query("SELECT * FROM web_user WHERE user_id = " + Integer.toString(userId));
         ResultSet rs = db.query(Queries.getFormatted(
                 "user.select.where.id", Integer.toString(userId)
         ));
 
         try {
             if (!rs.first()) return null;
-
-            returnedUser = new User(
+            else return new User(
                     rs.getInt("user_id"),
                     rs.getString("firstname"),
                     rs.getString("lastname"),
@@ -52,8 +47,6 @@ public class UserDAO implements IUserDAO {
                     rs.getString("password"),
                     rs.getBoolean("is_active")
                 );
-
-            return returnedUser;
         } catch (SQLException e) {
             throw new DALException(e);
         } finally {
@@ -68,7 +61,11 @@ public class UserDAO implements IUserDAO {
 
         try {
             db.connectToDatabase();
+        } catch(ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
 
+        try {
             ResultSet rsUser = db.query(Queries.getFormatted(
                "user.select.where.id", Integer.toString(userId)
             ));
@@ -83,8 +80,7 @@ public class UserDAO implements IUserDAO {
                         rsRoles.getString("permission_names").split(",")
                 ));
             }
-
-            User dbUser = new User(
+            return new User(
                     rsUser.getInt("user_id"),
                     rsUser.getString("firstname"),
                     rsUser.getString("lastname"),
@@ -93,9 +89,7 @@ public class UserDAO implements IUserDAO {
                     rsUser.getBoolean("is_active"),
                     userRoles
             );
-
-            return dbUser;
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             throw new DALException(e);
         } finally {
             db.close();
@@ -106,8 +100,7 @@ public class UserDAO implements IUserDAO {
     public User getUser(String token) { // TODO: Refactor UserDAO to UserDAODB and make a UserDAOToken and put this in here
         final Claims claims = Jwts.parser().setSigningKey(Config.AUTH_KEY).parseClaimsJws(token).getBody();
         final ObjectMapper objectMapper = new ObjectMapper();
-        User user = objectMapper.convertValue(claims.get("user"), User.class);
-        return user;
+        return objectMapper.convertValue(claims.get("user"), User.class);
     }
 
     @Override
@@ -115,7 +108,7 @@ public class UserDAO implements IUserDAO {
         if (this.db == null)
             throw new DALException("No database specified.");
 
-        List<User> usersList = new ArrayList<User>();
+        List<User> usersList = new ArrayList<>();
 
         try {
             db.connectToDatabase();
@@ -153,13 +146,16 @@ public class UserDAO implements IUserDAO {
         } finally {
             db.close();
         }
+
         return usersList;
     }
 
     @Override
-    public void updateUser(User user) throws DALException {
+    public int createUser(User user) throws DALException, DataValidationException {
         if (this.db == null)
             throw new DALException("No database specified.");
+
+        userValidation(user);
 
         try {
             db.connectToDatabase();
@@ -167,35 +163,7 @@ public class UserDAO implements IUserDAO {
             throw new DALException(e);
         }
 
-        try {
-            db.update(Queries.getFormatted(
-               "user.update",
-                    Integer.toString(user.getUserId()),
-                    user.getFirstname(),
-                    user.getLastname(),
-                    user.getInitials(),
-                    user.getPassword(),
-                    Boolean.toString(user.isActive())
-            ));
-        } catch (DALException e) {
-            throw new DALException(e);
-        } finally {
-            db.close();
-        }
-    }
-
-    @Override
-    public int createUser(User user) throws DALException {
-        if (this.db == null)
-            throw new DALException("No database specified.");
-
-        try {
-            db.connectToDatabase();
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new DALException(e);
-        }
-
-        final ResultSet rsUserId = db.query(Queries.getFormatted(
+        ResultSet rs = db.query(Queries.getFormatted(
                 "user.insert",
                 Integer.toString(user.getUserId()),
                 user.getFirstname(),
@@ -204,16 +172,53 @@ public class UserDAO implements IUserDAO {
                 user.getPassword()
         ));
 
-        int userId;
-
         try {
-            rsUserId.first();
-            userId = rsUserId.getInt(0);
-            return userId;
+            if (!rs.first()) return -1;
+            else return rs.getInt(0);
         } catch (SQLException e) {
-            throw new DALException("´Failed to create user: " + e);
+            throw new DALException(e);
         } finally {
             db.close();
         }
+    }
+
+    @Override
+    public void updateUser(User user) throws DALException, DataValidationException {
+        if (this.db == null)
+            throw new DALException("No database specified.");
+
+        userValidation(user);
+
+        try {
+            db.connectToDatabase();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
+        db.update(Queries.getFormatted(
+                "user.update",
+                Integer.toString(user.getUserId()),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getInitials(),
+                user.getPassword(),
+                Boolean.toString(user.isActive())
+        ));
+
+        db.close();
+    }
+
+    private void userValidation(User user) throws DataValidationException{
+        int userNameLength = user.getFirstname().length() + user.getLastname().length();
+        if (userNameLength < 2 || userNameLength > 20)
+            throw new DataValidationException("User first name + last name should be between 2 and 20 characters");
+
+        int initialsLength = user.getInitials().length();
+        if (initialsLength < 2 || initialsLength > 4)
+            throw new DataValidationException("User initials should be between 2 and 4 characters");
+
+        int passwordLength = user.getPassword().length();
+        if (passwordLength < 6)
+            throw new DataValidationException("User password should be at least 6 characters long");
     }
 }

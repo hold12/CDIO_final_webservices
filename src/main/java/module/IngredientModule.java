@@ -1,8 +1,9 @@
 package module;
 
+import auth.AuthenticationEndpoint;
 import config.Permission;
 import config.Routes;
-import auth.AuthenticationEndpoint;
+import dao.DataValidationException;
 import dao.IIngredientDAO;
 import dao.IngredientDAO;
 import dto.Ingredient;
@@ -55,7 +56,7 @@ public class IngredientModule {
     @Path(Routes.MODULE_INGREDIENT_CREATE)
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Ingredient createIngredient(Ingredient ingredient) {
+    public Ingredient createIngredient(Ingredient ingredient) throws DataValidationException {
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
             final IIngredientDAO ingredientDAO = new IngredientDAO(db);
