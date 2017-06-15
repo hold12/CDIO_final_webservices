@@ -1,0 +1,7 @@
+codecov:
+  coverage:
+    range: 20..40
+    status:
+      patch:
+        default:
+          target: 30%
