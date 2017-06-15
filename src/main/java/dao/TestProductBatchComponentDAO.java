@@ -11,8 +11,8 @@ public class TestProductBatchComponentDAO implements IProductBatchComponentDAO {
 
     public TestProductBatchComponentDAO(){
         productBatchComponentList = new ArrayList<>();
-        productBatchComponentList.add(new ProductBatchComponent(1,1,0.5,10.0));
-        productBatchComponentList.add(new ProductBatchComponent(1,2,0.5,5.0));
+        productBatchComponentList.add(new ProductBatchComponent(1,1,1,"water","Water supplier",0.5,10.0));
+        productBatchComponentList.add(new ProductBatchComponent(1,2,2,"lemon","Fruit supplier",0.5,5.0));
     }
 
     @Override

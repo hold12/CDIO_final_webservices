@@ -11,8 +11,8 @@ public class TestIngredientBatchDAO implements IIngredientBatchDAO {
 
     public TestIngredientBatchDAO() {
         ingredientBatchList = new ArrayList<>();
-        ingredientBatchList.add(new IngredientBatch(1,1,1.1));
-        ingredientBatchList.add(new IngredientBatch(2,1,2.2));
+        ingredientBatchList.add(new IngredientBatch(1,1,"water","Water supplier",1.1));
+        ingredientBatchList.add(new IngredientBatch(2,1,"lemon","Fruit supplier",2.2));
     }
 
     @Override

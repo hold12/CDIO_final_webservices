@@ -35,6 +35,8 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
             else return new RecipeComponent(
                         rs.getInt("recipe_id"),
                         rs.getInt("ingredient_id"),
+                        rs.getString("ingredient_name"),
+                        rs.getString("supplier"),
                         rs.getDouble("nominated_net_weight"),
                         rs.getDouble("tolerance")
                 );
@@ -65,6 +67,8 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
                 list.add(new RecipeComponent(
                         rs.getInt("recipe_id"),
                         rs.getInt("ingredient_id"),
+                        rs.getString("ingredient_name"),
+                        rs.getString("supplier"),
                         rs.getDouble("nominated_net_weight"),
                         rs.getDouble("tolerance"))
                 );
@@ -97,6 +101,8 @@ public class RecipeComponentDAO implements IRecipeComponentDAO {
                 list.add(new RecipeComponent(
                         rs.getInt("recipe_id"),
                         rs.getInt("ingredient_id"),
+                        rs.getString("ingredient_name"),
+                        rs.getString("supplier"),
                         rs.getDouble("nominated_net_weight"),
                         rs.getDouble("tolerance"))
                 );

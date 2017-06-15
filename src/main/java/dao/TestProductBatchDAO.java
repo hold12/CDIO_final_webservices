@@ -15,20 +15,24 @@ public class TestProductBatchDAO implements IProductBatchDAO {
         productBatchList.add(
                 new ProductBatch(
                         1,
+                        1,
+                        "saltwater",
                         new Timestamp(2017,6,12,8,55,0,0),
                         new Timestamp(2017,6,12,9,20,0,0),
                         2,
                         1,
-                        1
+                        "AB"
                 ));
         productBatchList.add(
                 new ProductBatch(
                         2,
+                        2,
+                        "lemonwater",
                         new Timestamp(2017,6,12,9,55,0,0),
                         null,
                         0,
                         2,
-                        2
+                        "CD"
                 ));
     }
 

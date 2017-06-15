@@ -11,8 +11,8 @@ public class TestRecipeComponentDAO implements IRecipeComponentDAO {
 
     public TestRecipeComponentDAO() {
         recipeComponentList = new ArrayList<>();
-        recipeComponentList.add(new RecipeComponent(1,1,1.1,0.1));
-        recipeComponentList.add(new RecipeComponent(1,2,2.2,0.1));
+        recipeComponentList.add(new RecipeComponent(1,1,"water","Water supplier",1.1,0.1));
+        recipeComponentList.add(new RecipeComponent(1,2,"lemon","Fruit supplier",2.2,0.1));
     }
 
     @Override
