@@ -17,6 +17,10 @@ public class Role {
         this.role_name = role_name;
         this.permissions = Arrays.asList(permissions);
     }
+    public Role(String role_name, List<String> permissions) {
+        this.role_name = role_name;
+        this.permissions = permissions;
+    }
     public Role(String role_name) {
         this.role_name = role_name;
     }
