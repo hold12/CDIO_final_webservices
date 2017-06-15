@@ -8,6 +8,8 @@ public class RecipeComponent {
     private double nominatedNetWeight;
     private double tolerance;
 
+    public RecipeComponent() {}
+
     public RecipeComponent(int recipeId, int ingredientId, String ingredientName, String supplier, double nominatedNetWeight, double tolerance) {
         this.recipeId = recipeId;
         this.ingredientId = ingredientId;

@@ -25,7 +25,6 @@ public class HomeModule {
         final String header = servletRequest.getHeader("Authorization");
         final String token = header.substring("Bearer".length()).trim();
 //        System.out.println("Token received: " + token);
-
         final IUserDAO userDAO = new UserDAO();
         final User user = userDAO.getUser(token);
         System.out.println("User logged in: " + user.getFirstname() + " " + user.getLastname());

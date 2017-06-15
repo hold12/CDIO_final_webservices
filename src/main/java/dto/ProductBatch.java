@@ -23,6 +23,8 @@ public class ProductBatch {
         this.initials = initials;
     }
 
+    public ProductBatch() {}
+
     public ProductBatch(int productbatchId, Timestamp createdTime, Timestamp finishedTime, int status, int recipeId, int userId) {
         this.productbatchId = productbatchId;
         this.createdTime = createdTime;

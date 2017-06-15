@@ -7,6 +7,8 @@ public class IngredientBatch {
     private String supplier;
     private double amount;
 
+    public IngredientBatch() {}
+
     public IngredientBatch(int ingredientBatchId, int ingredientId, String ingredientName, String supplier, double amount) {
         this.ingredientBatchId = ingredientBatchId;
         this.ingredientId = ingredientId;

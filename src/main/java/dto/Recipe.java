@@ -4,6 +4,8 @@ public class Recipe {
     private int recipeId;
     private String recipeName;
 
+    public Recipe() {}
+
     public Recipe(int recipeId, String recipeName) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;

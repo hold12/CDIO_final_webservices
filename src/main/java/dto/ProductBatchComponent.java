@@ -9,6 +9,8 @@ public class ProductBatchComponent {
     private double tare;
     private double netWeight;
 
+    public ProductBatchComponent() {}
+
     public ProductBatchComponent(int productbatchId, int ingredientbatchId, int ingredientId, String ingredientName, String supplier, double tare, double netWeight) {
         this.productbatchId = productbatchId;
         this.ingredientbatchId = ingredientbatchId;
