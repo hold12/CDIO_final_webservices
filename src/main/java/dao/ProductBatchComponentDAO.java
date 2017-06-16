@@ -35,6 +35,9 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
             else return new ProductBatchComponent(
                         rs.getInt("productbatch_id"),
                         rs.getInt("ingredientbatch_id"),
+                        rs.getInt("ingredient_id"),
+                        rs.getString("ingredient_name"),
+                        rs.getString("supplier"),
                         rs.getDouble("tare"),
                         rs.getDouble("net_weight")
                 );
@@ -65,6 +68,9 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
                 list.add(new ProductBatchComponent(
                         rs.getInt("productbatch_id"),
                         rs.getInt("ingredientbatch_id"),
+                        rs.getInt("ingredient_id"),
+                        rs.getString("ingredient_name"),
+                        rs.getString("supplier"),
                         rs.getDouble("tare"),
                         rs.getDouble("net_weight")
                 ));
@@ -97,6 +103,9 @@ public class ProductBatchComponentDAO implements IProductBatchComponentDAO {
                 list.add(new ProductBatchComponent(
                         rs.getInt("productbatch_id"),
                         rs.getInt("ingredientbatch_id"),
+                        rs.getInt("ingredient_id"),
+                        rs.getString("ingredient_name"),
+                        rs.getString("supplier"),
                         rs.getDouble("tare"),
                         rs.getDouble("net_weight")
                 ));
