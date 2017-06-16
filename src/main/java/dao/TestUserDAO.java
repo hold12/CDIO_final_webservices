@@ -1,6 +1,7 @@
 package dao;
 
 import dto.User;
+import dto.UserNoPerms;
 import jdbclib.DALException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -46,6 +47,11 @@ public class TestUserDAO implements IUserDAO {
 
     @Override
     public int createUser(User user) throws DALException {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public UserNoPerms getUserAndRoles(int userId) throws DALException {
         throw new NotImplementedException();
     }
 }

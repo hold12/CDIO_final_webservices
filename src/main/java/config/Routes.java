@@ -20,6 +20,7 @@ public class Routes {
     public final static String MODULE_USER = "user";
 	public final static String MODULE_USER_GET_ID = "userId";
 	public final static String MODULE_USER_GET = "get/{" + MODULE_USER_GET_ID + "}";
+	public final static String MODULE_USER_GET_NOPERMS = "getNoPerms/{" + MODULE_USER_GET_ID + "}";
 	public final static String MODULE_USER_ALL = "get/all";
 	public final static String MODULE_USER_UPDATE = "update";
 	public final static String MODULE_USER_CREATE = "create";
@@ -67,4 +68,5 @@ public class Routes {
 	// ==== Role Module ====
 	public final static String MODULE_ROLE = "role";
 	public final static String MODULE_ROLE_GET_ALL = "get/all";
+	public final static String MODULE_ROLE_GET_ALL_NOPERMS = "get/all-noperms";
 }
