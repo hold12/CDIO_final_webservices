@@ -206,17 +206,32 @@ public class UserDAO implements IUserDAO {
             throw new DALException(e);
         }
 
-        db.update(Queries.getFormatted(
+        System.err.println(Queries.getFormatted(
                 "user.update",
                 Integer.toString(user.getUserId()),
                 user.getFirstname(),
                 user.getLastname(),
                 user.getInitials(),
                 user.getPassword(),
-                Boolean.toString(user.isActive())
-        ));
+                Integer.toString((user.isActive()) ? 1 : 0)));
 
-        db.close();
+        try {
+            db.update(Queries.getFormatted(
+                    "user.update",
+                    Integer.toString(user.getUserId()),
+                    user.getFirstname(),
+                    user.getLastname(),
+                    user.getInitials(),
+                    user.getPassword(),
+                    Integer.toString((user.isActive()) ? 1 : 0)
+            ));
+        } catch (DALException e) {
+            System.err.println(e);
+            throw new DALException(e);
+        } finally {
+            db.close();
+        }
+
     }
 
     private void userValidation(User user) throws DataValidationException{
