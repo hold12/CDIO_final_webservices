@@ -28,16 +28,31 @@ public class RoleModule {
     @Path(Routes.MODULE_ROLE_GET_ALL)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Role> getAllRoles() {
+        try {
+            final IConnector db = new DBConnector(new DatabaseConnection());
+            RoleDAO roleDAO = new RoleDAO(db);
+
+            List<Role> roles = roleDAO.getRoleList();
+
+            return roles;
+        } catch (DALException | IOException e) {
+            System.err.println("RoleModule: " + e.getMessage());
+            return null;
+        }
+    }
+
+    @AuthenticationEndpoint.Secured(Permission.ROLE_READ)
+    @POST
+    @Path(Routes.MODULE_ROLE_GET_ALL_NOPERMS)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> getAllRolesNoPerms() {
         System.out.println("Getting roles....");
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
-            System.out.println("CONNECTED");
             RoleDAO roleDAO = new RoleDAO(db);
-            System.out.println("DAO Created");
-            List<Role> roles = roleDAO.getRoleList();
-            System.out.println("LIST FETCHED");
-            System.out.print("Roles Count: ");
-            System.out.println(roles.size());
+
+            List<String> roles = roleDAO.getRoleNames();
+
             return roles;
         } catch (DALException | IOException e) {
             System.err.println("RoleModule: " + e.getMessage());

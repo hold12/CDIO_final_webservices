@@ -58,4 +58,16 @@ public class RoleDAO implements IRoleDAO {
 
         return rolesList;
     }
+
+    @Override
+    public List<String> getRoleNames() throws DALException {
+        List<Role> roles = getRoleList();
+        List<String> roleNames = new ArrayList<>();
+
+        for (Role r : roles) {
+            roleNames.add(r.getRole_name());
+        }
+
+        return  roleNames;
+    }
 }

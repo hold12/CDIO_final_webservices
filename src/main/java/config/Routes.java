@@ -62,4 +62,5 @@ public class Routes {
 	// ==== Role Module ====
 	public final static String MODULE_ROLE = "role";
 	public final static String MODULE_ROLE_GET_ALL = "get/all";
+	public final static String MODULE_ROLE_GET_ALL_NOPERMS = "get/all-noperms";
 }
