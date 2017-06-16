@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import config.Config;
 import dto.Role;
 import dto.User;
+import dto.UserNoPerms;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jdbclib.DALException;
@@ -23,6 +24,7 @@ public class UserDAO implements IUserDAO {
 
     public UserDAO() {}
 
+    @Override
     public User getUser(int userId) throws DALException {
         if (this.db == null)
             throw new DALException("No database specified.");
@@ -52,6 +54,15 @@ public class UserDAO implements IUserDAO {
         } finally {
             db.close();
         }
+    }
+
+    @Override
+    public UserNoPerms getUserAndRoles(int userId) throws DALException {
+        User fullUser = getFullUser(userId);
+        UserNoPerms userNoPerms = new UserNoPerms(fullUser);
+        List<Role> roles = fullUser.getRoles();
+
+        return userNoPerms;
     }
 
     @Override
@@ -195,17 +206,32 @@ public class UserDAO implements IUserDAO {
             throw new DALException(e);
         }
 
-        db.update(Queries.getFormatted(
+        System.err.println(Queries.getFormatted(
                 "user.update",
                 Integer.toString(user.getUserId()),
                 user.getFirstname(),
                 user.getLastname(),
                 user.getInitials(),
                 user.getPassword(),
-                Boolean.toString(user.isActive())
-        ));
+                Integer.toString((user.isActive()) ? 1 : 0)));
 
-        db.close();
+        try {
+            db.update(Queries.getFormatted(
+                    "user.update",
+                    Integer.toString(user.getUserId()),
+                    user.getFirstname(),
+                    user.getLastname(),
+                    user.getInitials(),
+                    user.getPassword(),
+                    Integer.toString((user.isActive()) ? 1 : 0)
+            ));
+        } catch (DALException e) {
+            System.err.println(e);
+            throw new DALException(e);
+        } finally {
+            db.close();
+        }
+
     }
 
     private void userValidation(User user) throws DataValidationException{

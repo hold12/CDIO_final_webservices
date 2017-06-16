@@ -7,6 +7,7 @@ import dao.DataValidationException;
 import dao.IUserDAO;
 import dao.UserDAO;
 import dto.User;
+import dto.UserNoPerms;
 import jdbclib.DALException;
 import jdbclib.DBConnector;
 import jdbclib.DatabaseConnection;
@@ -59,6 +60,27 @@ public class UserModule {
             System.out.println(e); // TODO: Throw a better exception and catch frontend
         }
         throw new NotImplementedException();
+    }
+
+    @AuthenticationEndpoint.Secured(Permission.USER_READ)
+    @POST
+    @Path(Routes.MODULE_USER_GET_NOPERMS)
+    @Produces(MediaType.APPLICATION_JSON)
+    public UserNoPerms getUserNoPerms(@PathParam(Routes.MODULE_USER_GET_ID) int userId) {
+        try {
+            IConnector db = new DBConnector(new DatabaseConnection());
+            IUserDAO userDAO = new UserDAO(db);
+
+            System.err.println("userId = " + userId);
+
+            UserNoPerms user = userDAO.getUserAndRoles(userId);
+            System.out.println("=== USER IS: " + user.toString());
+
+            return user;
+        } catch (DALException | IOException e) {
+            System.err.println(e);
+            return null; // TODO: Better exception handling
+        }
     }
 
 	@AuthenticationEndpoint.Secured(Permission.USER_UPDATE)
