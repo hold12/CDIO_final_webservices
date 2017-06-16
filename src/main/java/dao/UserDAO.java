@@ -169,7 +169,7 @@ public class UserDAO implements IUserDAO {
                 user.getFirstname(),
                 user.getLastname(),
                 user.getInitials(),
-                user.getPassword()
+                generatePassword(user)
         ));
 
         try {
