@@ -32,4 +32,5 @@ public class Role {
     public void setRole_name(String role_name) { this.role_name = role_name; }
     public List<String> getPermissions() { return permissions; }
     public void setPermissions(List<String> permissions) { this.permissions = permissions; }
+    public void clearPermissions() { this.permissions.clear(); }
 }

@@ -41,7 +41,7 @@ public class RoleDAO implements IRoleDAO {
 
                 while (rsPermissions.next()) {
                     String perm = rsPermissions.getString("permission_name");
-                    System.out.println(role + " : " + perm);
+//                    System.out.println(role + " : " + perm);
                     permissions.add(perm);
                 }
 
