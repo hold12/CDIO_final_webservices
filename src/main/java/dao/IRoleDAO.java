@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface IRoleDAO {
     List<Role> getRoleList() throws DALException;
+    List<String> getRoleNames() throws DALException;
 }
