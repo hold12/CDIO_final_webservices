@@ -23,7 +23,7 @@ import java.util.List;
 public class ProductBatchComponentModule {
     @AuthenticationEndpoint.Secured(Permission.PRODUCTBATCH_READ)
     @POST
-    @Path(Routes.MODULE_PRODUCTBATCHCOMPONENT_GET_PRODUCTBATCHID)
+    @Path(Routes.MODULE_PRODUCTBATCHCOMPONENT_ALL)
     @Produces(MediaType.APPLICATION_JSON)
     public List<ProductBatchComponent> getProductBatchComponentList(@PathParam(Routes.MODULE_PRODUCTBATCHCOMPONENT_GET_PRODUCTBATCHID) int productBatchId) {
         try {
