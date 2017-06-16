@@ -32,11 +32,13 @@ public class ProductBatchDAO implements IProductBatchDAO {
             if (!rs.first()) return null;
             else return new ProductBatch(
                     rs.getInt("productbatch_id"),
+                    rs.getInt("recipe_id"),
+                    rs.getString("recipe_name"),
                     rs.getTimestamp("created_time"),
                     rs.getTimestamp("finished_time"),
                     rs.getInt("status"),
-                    rs.getInt("recipe_id"),
-                    rs.getInt("user_id")
+                    rs.getInt("user_id"),
+                    rs.getString("initials")
             );
         } catch (SQLException e) {
             throw new DALException(e);
@@ -63,11 +65,13 @@ public class ProductBatchDAO implements IProductBatchDAO {
             while (rs.next()) {
                 list.add(new ProductBatch(
                         rs.getInt("productbatch_id"),
+                        rs.getInt("recipe_id"),
+                        rs.getString("recipe_name"),
                         rs.getTimestamp("created_time"),
                         rs.getTimestamp("finished_time"),
                         rs.getInt("status"),
-                        rs.getInt("recipe_id"),
-                        rs.getInt("user_id")
+                        rs.getInt("user_id"),
+                        rs.getString("initials")
                 ));
             }
         } catch (SQLException e) {

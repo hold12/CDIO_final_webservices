@@ -37,6 +37,8 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
             returnedIngredientBatch = new IngredientBatch(
                     rs.getInt("ingredientbatch_id"),
                     rs.getInt("ingredient_id"),
+                    rs.getString("ingredient_name"),
+                    rs.getString("supplier"),
                     rs.getDouble("amount")
             );
 
@@ -67,6 +69,8 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
                 list.add(new IngredientBatch(
                         rs.getInt("ingredientbatch_id"),
                         rs.getInt("ingredient_id"),
+                        rs.getString("ingredient_name"),
+                        rs.getString("supplier"),
                         rs.getDouble("amount")
                 ));
             }
@@ -99,6 +103,8 @@ public class IngredientBatchDAO implements IIngredientBatchDAO {
                 list.add(new IngredientBatch(
                         rs.getInt("ingredientbatch_id"),
                         rs.getInt("ingredient_id"),
+                        rs.getString("ingredient_name"),
+                        rs.getString("supplier"),
                         rs.getDouble("amount")
                 ));
             }
