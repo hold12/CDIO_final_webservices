@@ -58,6 +58,11 @@ public class Routes {
 	public final static String MODULE_PRODUCTBATCH_ALL = "get/all";
 	public final static String MODULE_PRODUCTBATCH_CREATE = "create";
 
+	// ==== Product Batch Component ====
+	public final static String MODULE_PRODUCTBATCHCOMPONENT = "productbatchcomponent";
+	public final static String MODULE_PRODUCTBATCHCOMPONENT_GET_PRODUCTBATCHID = "productbatchId";
+	public final static String MODULE_PRODUCTBATCHCOMPONENT_ALL = "get/all/{" + MODULE_PRODUCTBATCHCOMPONENT_GET_PRODUCTBATCHID + "}";
+
 	// ==== Role Module ====
 	public final static String MODULE_ROLE = "role";
 	public final static String MODULE_ROLE_GET_ALL = "get/all";
