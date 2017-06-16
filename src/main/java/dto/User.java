@@ -4,6 +4,7 @@ import config.Permission;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class User {
 	private int userId;
@@ -103,4 +104,51 @@ public class User {
 	public String toString() {
         return userId + "\t" + firstname + "\t" + lastname + "\t" + initials + "\t" + password + "\t" + active;
     }
+
+	public String generatePassword() {
+		final int minLen = 8;
+		final int maxLen = 20;
+		final int noOfCAPSAlpha = 1;
+		final int noOfDigits = 1;
+		final int noOfSplChars = 1;
+		final String ALPHA_CAPS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		final String ALPHA = "abcdefghijklmnopqrstuvwxyz";
+		final String NUM = "0123456789";
+		final String SPECIAL_CHARS = ".-_+!?=";
+
+		Random rnd = new Random();
+		int len = rnd.nextInt(maxLen - minLen + 1) + minLen;
+		char[] pswd = new char[len];
+		int index;
+
+		for (int i = 0; i < noOfCAPSAlpha; i++) {
+			index = getNextIndex(rnd, len, pswd);
+			pswd[index] = ALPHA_CAPS.charAt(rnd.nextInt(ALPHA_CAPS.length()));
+		}
+
+		for (int i = 0; i < noOfDigits; i++) {
+			index = getNextIndex(rnd, len, pswd);
+			pswd[index] = NUM.charAt(rnd.nextInt(NUM.length()));
+		}
+
+		for (int i = 0; i < noOfSplChars; i++) {
+			index = getNextIndex(rnd, len, pswd);
+			pswd[index] = SPECIAL_CHARS.charAt(rnd.nextInt(SPECIAL_CHARS.length()));
+		}
+
+		for (int i = 0; i < len; i++) {
+			if (pswd[i] == 0) {
+				pswd[i] = ALPHA.charAt(rnd.nextInt(ALPHA.length()));
+			}
+		}
+
+		return new String(pswd);
+	}
+
+	private int getNextIndex(Random rnd, int len, char[] pswd) {
+		int index;
+		while (pswd[index = rnd.nextInt(len)] != 0) ;
+		return index;
+	}
+
 }

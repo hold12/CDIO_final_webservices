@@ -12,4 +12,5 @@ public interface IUserDAO {
 	int createUser(User user) throws DALException, DataValidationException;
 	void updateUser(User user) throws DALException, DataValidationException;
 	List<User> getUserList() throws DALException;
+	String generatePassword(User user) throws DALException, DataValidationException;
 }

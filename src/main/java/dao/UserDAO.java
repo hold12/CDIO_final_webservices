@@ -208,6 +208,36 @@ public class UserDAO implements IUserDAO {
         db.close();
     }
 
+    @Override
+    public String generatePassword(User user) throws DALException, DataValidationException {
+        if (this.db == null)
+            throw new DALException("No database specified.");
+
+        userValidation(user);
+        String password = user.generatePassword();
+        user.setPassword(password);
+
+        try {
+            db.connectToDatabase();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new DALException(e);
+        }
+
+        db.update(Queries.getFormatted(
+                "user.update",
+                Integer.toString(user.getUserId()),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getInitials(),
+                user.getPassword(),
+                Boolean.toString(user.isActive())
+        ));
+
+        db.close();
+
+        return password;
+    }
+
     private void userValidation(User user) throws DataValidationException{
         int userNameLength = user.getFirstname().length() + user.getLastname().length();
         if (userNameLength < 2 || userNameLength > 20)
