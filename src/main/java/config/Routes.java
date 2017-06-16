@@ -24,6 +24,7 @@ public class Routes {
 	public final static String MODULE_USER_ALL = "get/all";
 	public final static String MODULE_USER_UPDATE = "update";
 	public final static String MODULE_USER_CREATE = "create";
+	public final static String MODULE_USER_GENERATEPASSWORD = "update/password";
 
 	// ==== Ingredient Module
 	public final static String MODULE_INGREDIENT = "ingredient";
@@ -58,6 +59,11 @@ public class Routes {
 	public final static String MODULE_PRODUCTBATCH_GET = "get/{" + MODULE_PRODUCTBATCH_GET_ID + "}";
 	public final static String MODULE_PRODUCTBATCH_ALL = "get/all";
 	public final static String MODULE_PRODUCTBATCH_CREATE = "create";
+
+	// ==== Product Batch Component ====
+	public final static String MODULE_PRODUCTBATCHCOMPONENT = "productbatchcomponent";
+	public final static String MODULE_PRODUCTBATCHCOMPONENT_GET_PRODUCTBATCHID = "productbatchId";
+	public final static String MODULE_PRODUCTBATCHCOMPONENT_ALL = "get/all/{" + MODULE_PRODUCTBATCHCOMPONENT_GET_PRODUCTBATCHID + "}";
 
 	// ==== Role Module ====
 	public final static String MODULE_ROLE = "role";

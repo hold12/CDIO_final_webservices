@@ -99,6 +99,21 @@ public class UserModule {
         }
     }
 
+    @AuthenticationEndpoint.Secured(Permission.USER_UPDATE)
+    @POST
+    @Path(Routes.MODULE_USER_GENERATEPASSWORD)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String generatePassword(User user) {
+        try {
+            final IConnector db = new DBConnector(new DatabaseConnection());
+            final IUserDAO userDAO = new UserDAO(db);
+
+            return userDAO.generatePassword(user);
+        } catch (IOException | DALException | DataValidationException e) {
+            return ""; // TODO: Better exception handling
+        }
+    }
+
 	@AuthenticationEndpoint.Secured(Permission.USER_CREATE)
     @POST
     @Path(Routes.MODULE_USER_CREATE)
