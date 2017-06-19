@@ -202,7 +202,10 @@ public class UserDAO implements IUserDAO {
 
         try {
             if (!rs.first()) return -1;
-            else return rs.getInt(0);
+            else {
+                int id = rs.getInt(1);
+                return id;
+            }
         } catch (SQLException e) {
             throw new DALException(e);
         } finally {
