@@ -166,7 +166,7 @@ public class UserDAO implements IUserDAO {
         if (this.db == null)
             throw new DALException("No database specified.");
 
-        userValidation(user);
+		user.setPassword(generatePassword(user));
 
         try {
             db.connectToDatabase();
@@ -174,18 +174,29 @@ public class UserDAO implements IUserDAO {
             throw new DALException(e);
         }
 
+		StringBuilder roles = new StringBuilder();
+		for (Role role: user.getRoles()) {
+			if (roles.length() > 0)
+				roles.append(",").append(role.getRole_id());
+			else
+				roles.append(role.getRole_id());
+		}
+
         ResultSet rs = db.query(Queries.getFormatted(
                 "user.insert",
-                Integer.toString(user.getUserId()),
                 user.getFirstname(),
                 user.getLastname(),
                 user.getInitials(),
-                generatePassword(user)
-        ));
+                user.getPassword(),
+                roles.toString())
+        );
 
         try {
             if (!rs.first()) return -1;
-            else return rs.getInt(0);
+            else {
+                int id = rs.getInt(1);
+                return id;
+            }
         } catch (SQLException e) {
             throw new DALException(e);
         } finally {
@@ -239,28 +250,29 @@ public class UserDAO implements IUserDAO {
         if (this.db == null)
             throw new DALException("No database specified.");
 
-        userValidation(user);
         String password = user.generatePassword();
         user.setPassword(password);
+		userValidation(user);
 
-        try {
-            db.connectToDatabase();
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new DALException(e);
-        }
+		if(user.getUserId() > 0) { //if user is newly created, we don't want to push to the db
+			try {
+				db.connectToDatabase();
+			} catch (ClassNotFoundException | SQLException e) {
+				throw new DALException(e);
+			}
 
-        db.update(Queries.getFormatted(
-                "user.update",
-                Integer.toString(user.getUserId()),
-                user.getFirstname(),
-                user.getLastname(),
-                user.getInitials(),
-                user.getPassword(),
-                Boolean.toString(user.isActive())
-        ));
+			db.update(Queries.getFormatted(
+					"user.update",
+					Integer.toString(user.getUserId()),
+					user.getFirstname(),
+					user.getLastname(),
+					user.getInitials(),
+					user.getPassword(),
+					Boolean.toString(user.isActive())
+			));
 
-        db.close();
-
+			db.close();
+		}
         return password;
     }
 
