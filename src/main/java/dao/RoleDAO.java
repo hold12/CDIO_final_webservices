@@ -46,6 +46,7 @@ public class RoleDAO implements IRoleDAO {
                 }
 
                 rolesList.add(new Role(
+                        rsRoles.getInt("role_id"),
                         rsRoles.getString("role_name"),
                         permissions
                 ));
