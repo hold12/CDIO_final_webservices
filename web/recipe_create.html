@@ -20,15 +20,32 @@
         <p id="recipeOutput"><strong>recipe: </strong><span id="recipe_json">Recipe not fetched yet.</span></p>
     </div>
 </div>
-<script src="assets/js/getSecureData.js"></script>
+<div class="recipe-page">
+    <div class="form">
+        <form class="recipe-form" method="post" enctype="application/json" id="recipe-form">
+            <input type="text" placeholder="Enter User ID" name="userId" value="1"/>
+            <input type="password" placeholder="Enter Password" name="password" value="root" />
+            <button id="submit-form">login</button>
+        </form>
+    </div>
+</div>
 <script>
     $("#submit-recipe").click(function (e) {
         e.preventDefault();
-        getSecureData("/module/recipe/get/" + $("#recipeId").val(), function(output) {
+        postSecureData("/module/recipe/get/" + $("#recipeId").val(), function(output) {
             $("#recipe_json").html(output);
         });
     });
 </script>
-
+<script>
+    $("#submit-form").click(function (e) {
+        e.preventDefault();
+        var form = $("#login-form").serializeJSON();
+        getSecureData("/module/recipe/create", function(output) {
+            $("#recipe_json").html(output);
+        }, form);
+    });
+</script>
+<script src="assets/js/getSecureData.js"></script>
 </body>
 </html>

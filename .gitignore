@@ -105,3 +105,5 @@ buildNumber.properties
 .idea/*
 *.iml
 apache-tomcat/*
+!/CDIO_final_webservices.iml
+!/.idea/modules.xml
