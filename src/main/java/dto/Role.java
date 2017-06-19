@@ -13,6 +13,10 @@ public class Role {
 
     public Role() { }
 
+	public Role(int role_id) {
+		this.role_id = role_id;
+	}
+
     public Role(String role_name, String[] permissions) {
         this.role_name = role_name;
         this.permissions = Arrays.asList(permissions);

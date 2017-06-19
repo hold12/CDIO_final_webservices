@@ -176,18 +176,29 @@ public class UserDAO implements IUserDAO {
 
         //TODO: roles are broken as fuck and needs a proper method to get assigned to a user
 		StringBuilder roles = new StringBuilder();
-		for (Role role: user.getRoles())
-			roles.append(role.getRole_id()).append(",");
+		for (Role role: user.getRoles()) {
+			if (roles.length() > 0)
+				roles.append(",").append(role.getRole_id());
+			else
+				roles.append(role.getRole_id());
+		}
 
 
-        ResultSet rs = db.query(Queries.getFormatted(
-                "user.insert",
-                user.getFirstname(),
-                user.getLastname(),
-                user.getInitials(),
-                user.getPassword(),
+
+        System.out.printf("Roles: " + roles.toString());
+
+        String query = Queries.getFormatted(
+				"user.insert",
+				user.getFirstname(),
+				user.getLastname(),
+				user.getInitials(),
+				user.getPassword(),
 				roles.toString()
-                ));
+		);
+
+		System.out.println("Query of failure: " + query);
+
+        ResultSet rs = db.query(query);
 
         try {
             if (!rs.first()) return -1;
