@@ -6,6 +6,7 @@ import jdbclib.IConnector;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +91,8 @@ public class ProductBatchDAO implements IProductBatchDAO {
         } catch (ClassNotFoundException | SQLException e) {
             throw new DALException(e);
         }
+
+        productBatch.setCreatedTime(new Timestamp(System.currentTimeMillis()));
 
         ResultSet rs = db.query(Queries.getFormatted(
                 "productbatch.insert",
