@@ -37,4 +37,14 @@ public class Role {
     public List<String> getPermissions() { return permissions; }
     public void setPermissions(List<String> permissions) { this.permissions = permissions; }
     public void clearPermissions() { this.permissions.clear(); }
+
+    @Override
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Role role = (Role) o;
+
+        return (role_id == role.role_id);
+    }
 }
