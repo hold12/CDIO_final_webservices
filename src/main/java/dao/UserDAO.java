@@ -217,15 +217,6 @@ public class UserDAO implements IUserDAO {
             throw new DALException(e);
         }
 
-        System.err.println(Queries.getFormatted(
-                "user.update",
-                Integer.toString(user.getUserId()),
-                user.getFirstname(),
-                user.getLastname(),
-                user.getInitials(),
-                user.getPassword(),
-                Integer.toString((user.isActive()) ? 1 : 0)));
-
         try {
             db.update(Queries.getFormatted(
                     "user.update",
@@ -254,25 +245,6 @@ public class UserDAO implements IUserDAO {
         user.setPassword(password);
 		userValidation(user);
 
-		if(user.getUserId() > 0) { //if user is newly created, we don't want to push to the db
-			try {
-				db.connectToDatabase();
-			} catch (ClassNotFoundException | SQLException e) {
-				throw new DALException(e);
-			}
-
-			db.update(Queries.getFormatted(
-					"user.update",
-					Integer.toString(user.getUserId()),
-					user.getFirstname(),
-					user.getLastname(),
-					user.getInitials(),
-					user.getPassword(),
-					Boolean.toString(user.isActive())
-			));
-
-			db.close();
-		}
         return password;
     }
 

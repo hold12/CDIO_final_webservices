@@ -59,10 +59,4 @@ public class RoleModule {
             return null;
         }
     }
-
-    @GET
-    @Path("test")
-    public String test() {
-        return "Roles are working!!!! not..";
-    }
 }

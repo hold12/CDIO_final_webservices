@@ -72,10 +72,7 @@ public class UserModule {
             IConnector db = new DBConnector(new DatabaseConnection());
             IUserDAO userDAO = new UserDAO(db);
 
-            System.err.println("userId = " + userId);
-
             UserNoPerms user = userDAO.getUserAndRoles(userId);
-            System.out.println("=== USER IS: " + user.toString());
 
             return user;
         } catch (DALException | IOException e) {
@@ -96,14 +93,14 @@ public class UserModule {
 
             userDAO.updateUser(user);
         } catch (IOException | DALException e) {
+			System.err.println(e);
             return; // TODO: Better exception handling
         }
     }
 
-    @AuthenticationEndpoint.Secured(Permission.USER_UPDATE)
     @POST
     @Path(Routes.MODULE_USER_GENERATEPASSWORD)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public String generatePassword(User user) {
         try {
             final IConnector db = new DBConnector(new DatabaseConnection());
@@ -130,6 +127,7 @@ public class UserModule {
             user.setUserId(userId);
             return user;
         } catch (IOException | DALException e) {
+			System.err.println(e);
             return null; // TODO: Better exception handling
         }
     }
