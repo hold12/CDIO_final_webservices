@@ -31,18 +31,14 @@ public class AuthenticationEndpoint {
     public Response authenticateUser(Credentials credentials) {
         try {
             // Authenticate the' user using the credentials provided
-//            System.out.println("Authenticating");
             authenticate(credentials);
 
             // Issue a token for the user
-//            System.out.println("Authenticated. Issuing token");
             String token = issueToken(credentials.getUserId());
 
-//            System.out.println("Yay, 200 ok!");
             return Response.ok(token).build();
+
         } catch (Exception e) {
-//            System.out.println("Could not authenticate");
-//            System.err.println("Error: " + e.getMessage());
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
     }
@@ -52,14 +48,9 @@ public class AuthenticationEndpoint {
         // Throw exception if credentials is
         try {
             IConnector db = new DBConnector(new DatabaseConnection());
-            db.connectToDatabase();
-
-//            System.out.println("Database connected");
 
             UserDAO userDAO = new UserDAO(db);
             User dbUser = userDAO.getUser(credentials.getUserId());
-
-//            System.out.println("dbuser = " + dbUser.toString());
 
             if  (!(dbUser != null && credentials.getPassword().equals(dbUser.getPassword()) && dbUser.isActive())) // TODO: Pretty this up plz
                 throw new Exception("could not authenticate");
@@ -70,7 +61,6 @@ public class AuthenticationEndpoint {
 
     String issueToken(int userId) {
         // Issue a token
-        // TODO: should the token get saved in the database?
 
         Date today = new Date();
         Date twoHoursFromNow = new Date(today.getTime() + (1000 * 60 * 60 * 2));
@@ -79,15 +69,10 @@ public class AuthenticationEndpoint {
 
         try {
             IConnector db = new DBConnector(new DatabaseConnection());
-            db.connectToDatabase();
-
-//            System.out.println("Database connected");
 
             UserDAO userDAO = new UserDAO(db);
             dbUser = userDAO.getFullUser(userId);
             dbUser.setPassword("[hidden]");
-            System.out.println("Endpoint, User roles: " + dbUser.getRoles().get(0).getRole_name());
-            System.out.println(dbUser);
         } catch (Exception e) { /* TODO: Catch something here... */ }
 
         return Jwts.builder() // TODO: Might throw NullPointerException...

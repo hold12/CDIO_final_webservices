@@ -63,7 +63,7 @@ public class IngredientBatchModule {
 			final int ingredientBatchId = ingredientBatchDAO.createIngredientBatch(ingredientBatch);
 
 			ingredientBatch.setIngredientBatchId(ingredientBatchId);
-//			return ingredientBatch;
+
 			return Response.status(Response.Status.OK).build();
 		} catch (IOException | DALException e) {
 			System.err.println(e.getMessage()); // TODO: Throw a better exception and catch frontend

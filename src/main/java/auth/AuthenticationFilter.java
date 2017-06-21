@@ -35,8 +35,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        // TODO: user from context (cookie)
-
 
         // ======== GET HTTP HEADER ========
         // Get auth header from the request
@@ -102,15 +100,13 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     }
 
     private void checkPermissions(List<Permission> allowedPermissions, User user) throws Exception { // TODO: Better exception handling
-        System.out.println("Checking permission: ");
-        System.out.println("permission: " + allowedPermissions.size());
         for (Permission p : allowedPermissions) {
             if (!user.hasPermission(p))
-                throw new Exception("User does not have suffiecient permissions.");
+                throw new Exception("User does not have sufficient permissions.");
         }
     }
 
-    public static void validateToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException { // TODO: Maybe test some more exceptions
+    static void validateToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException { // TODO: Maybe test some more exceptions
         // Check if it was issued by the server and if it's not expired
         // Throw an Exception if the token is invalid
 
