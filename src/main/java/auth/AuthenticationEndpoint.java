@@ -6,8 +6,7 @@ import config.Routes;
 import dao.UserDAO;
 import dto.Credentials;
 import dto.User;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import jdbclib.DALException;
 import jdbclib.DBConnector;
 import jdbclib.DatabaseConnection;
@@ -81,6 +80,18 @@ public class AuthenticationEndpoint {
                 .setExpiration(twoHoursFromNow)
                 .signWith(SignatureAlgorithm.HS512, Config.AUTH_KEY)
                 .compact();
+    }
+
+    @POST
+    @Path(Routes.AUTH_VALIDATE)
+    @Produces(MediaType.TEXT_PLAIN)
+    public static Response validateToken(String token) { // TODO: Maybe test some more exceptions
+        try {
+            Jwts.parser().setSigningKey(Config.AUTH_KEY).parseClaimsJws(token).getBody();
+            return Response.status(Response.Status.OK).build();
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity("Token not valid: " + e.getMessage()).build();
+        }
     }
 
     @NameBinding
