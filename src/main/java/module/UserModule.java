@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -132,4 +133,30 @@ public class UserModule {
             return null; // TODO: Better exception handling
         }
     }
+
+    @AuthenticationEndpoint.Secured(Permission.PRODUCTBATCH_CREATE)
+    @POST
+    @Path(Routes.MODULE_USER_GET_LABTECHS)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<User> getLabtechUsers() {
+        try {
+            final IConnector db = new DBConnector(new DatabaseConnection());
+            final IUserDAO userDAO = new UserDAO(db);
+            List<User> labtechs = new ArrayList<>();
+            List<User> users = userDAO.getUserList();
+
+            for(User u : users){
+                UserNoPerms i = userDAO.getUserAndRoles(u.getUserId());
+                if(i.getRoles().contains("labtech") && u.isActive()){
+                    labtechs.add(u);
+                }
+            }
+
+            return labtechs;
+        } catch (IOException | DALException e) {
+            System.out.println(e); // TODO: Throw a better exception and catch frontend
+        }
+        throw new NotImplementedException();
+    }
+
 }
